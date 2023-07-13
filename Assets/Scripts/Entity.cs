@@ -16,6 +16,9 @@ public abstract class Entity : MonoBehaviour
         _velocity += force;
         _velocity = Vector3.ClampMagnitude(_velocity, _myEntityData.speed);
         transform.position += _velocity * Time.deltaTime;
-        transform.forward = _velocity;
+        if (_velocity.magnitude > 0.01f) 
+        {
+            transform.forward = _velocity.normalized;
+        }
     }
 }

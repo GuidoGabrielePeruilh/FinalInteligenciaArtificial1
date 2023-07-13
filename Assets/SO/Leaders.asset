@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <speed>k__BackingField: 80
   <_maxForce>k__BackingField: 0.1
-  <_timeToStop>k__BackingField: 50
+  <_timeToStop>k__BackingField: 60.5

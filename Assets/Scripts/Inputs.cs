@@ -28,12 +28,7 @@ public class Inputs : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Vector3 targetPosition = hit.point;
-            Debug.Log(hit.collider.gameObject);
-            if (hit.collider.gameObject == entityToMove.gameObject) //aca esta el error
-            {
-                Debug.Log("Moveteeee " + entityToMove.name);
-                entityToMove.Move(targetPosition);
-            }
+            entityToMove.UpdateTargetPosition(targetPosition);
         }
     }
 }
