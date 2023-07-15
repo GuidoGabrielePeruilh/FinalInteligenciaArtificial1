@@ -14,7 +14,8 @@ public class Inputs : MonoBehaviour
         {
             GetClickPosition(myEntityLeftClick);
         }
-        else if (Input.GetMouseButtonDown(1)) 
+        
+        if (Input.GetMouseButtonDown(1)) 
         {
             GetClickPosition(myEntityRightClick);
         }
