@@ -5,20 +5,47 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     [SerializeField] protected EntityDataSO _myEntityData;
+    [SerializeField] private int collisionLayer;
+
     protected Vector3 _velocity;
+
 
     public void Initialize(EntityDataSO entityData)
     {
         _myEntityData = entityData;
     }
-    public virtual void AddForce(Vector3 force)
+    public virtual void AddForce(Vector3 force, float speed)
     {
         _velocity += force;
-        _velocity = Vector3.ClampMagnitude(_velocity, _myEntityData.speed);
+        _velocity = Vector3.ClampMagnitude(_velocity, speed);
         transform.position += _velocity * Time.deltaTime;
         if (_velocity.magnitude > 0.01f) 
         {
             transform.forward = _velocity.normalized;
         }
     }
+
+    public Vector3 CalculateSteering(Vector3 desired, float speed)
+    {
+        desired.Normalize();
+        desired *= speed;
+        return Vector3.ClampMagnitude(desired - _velocity, _myEntityData._maxForce);
+    }
+
+    public void FollowPath(Stack<Node> pathToFollow)
+    {
+        if (pathToFollow.Count == 0) return;
+
+        Vector3 nextPos = pathToFollow.Peek().transform.position;
+        Vector3 dir = nextPos - transform.position;
+        dir.y = 0;
+
+        AddForce(CalculateSteering(dir, _myEntityData.speed), _myEntityData.speed);
+
+        if (dir.sqrMagnitude < _myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed)
+        {
+            pathToFollow.Pop();
+        }
+    }
+
 }

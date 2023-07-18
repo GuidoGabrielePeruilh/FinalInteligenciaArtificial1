@@ -7,28 +7,29 @@ public class NodesManager : MonoBehaviour
     public static NodesManager Instance { get; private set; }
     [SerializeField] public LayerMask BlockedNodeLayer { get; private set; }
     Node[] _nodes;
-    Node _endNode;
+    Node _node;
+    [SerializeField] private LayerMask collisionLayer;
 
     private void Awake()
     {
         Instance = this;
-        _nodes = FindObjectsOfType<Node>();
     }
 
-    public Node SetTargetGoalNode(Vector3 positionOfMyTarget)
+    public Node SetNode(Vector3 position)
     {
+        Collider[] colliders = Physics.OverlapSphere(position, 0.5f, collisionLayer);
+        Debug.Log(colliders.Length);
         float _minDistance = 1000000f;
 
-        for (int i = 0; i < _nodes.Length; i++)
+        for (int i = 0; i < colliders.Length; i++)
         {
-            float disToTarget = Vector3.Distance(_nodes[i].transform.position, positionOfMyTarget);
-
+            float disToTarget = Vector3.Distance(transform.position, colliders[i].transform.position);
             if (disToTarget < _minDistance)
             {
                 _minDistance = disToTarget;
-                _endNode = _nodes[i];
+                _node = colliders[i].GetComponent<Node>();
             }
         }
-        return _endNode;
+        return _node;
     }
 }

@@ -42,7 +42,7 @@ public class Node : MonoBehaviour
     void SetBlocked(bool isBlock)
     {
         IsBlocked = isBlock;
-        gameObject.layer = isBlock ? 6 : 0;
+        gameObject.layer = isBlock ? 6 : 7;
     }
 
     
