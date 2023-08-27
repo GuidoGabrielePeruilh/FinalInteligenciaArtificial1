@@ -46,7 +46,6 @@ public class EntityFindPathState : IState
         _pathToFollow = new Stack<Node>();
         _pathfinding = new PathFinding();
         _pathToFollow = _pathfinding.AStar(_startingNode, _goalNode);
-        Debug.Log($"UpdatePath startingNode {_startingNode.name}, goalNode {_goalNode.name}");
     }
 
 }

@@ -117,3 +117,4 @@ MonoBehaviour:
   _collisionLayer:
     serializedVersion: 2
     m_Bits: 0
+  _rangeToDetectWalls: 1.5
