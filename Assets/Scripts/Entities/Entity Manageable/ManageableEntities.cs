@@ -11,40 +11,63 @@ public class ManageableEntities : Entity
 
     private void Awake()
     {
-
+        UpdateTargetPosition(this.transform.position);
         _fsm = new FSM<ManageableEntityStates>();
-
 
         IState findPath = new EntityFindPathState(_fsm, this);
         _fsm.AddState(ManageableEntityStates.FindPath, findPath);
-
-        _fsm.ChangeState(ManageableEntityStates.FindPath);
 
     }
 
     private void Start()
     {
-        UpdateTargetPosition(this.transform.position);
+        _fsm.ChangeState(ManageableEntityStates.FindPath);
     }
 
     private void Update()
     {
-        ActualPosition = this.transform.position;
-        //_direction = _targetPosition - transform.position;
-        //_direction.y = 0;
-        //if (_myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed >= _direction.magnitude)
-        //{
-        //    _velocity = Vector3.Lerp(_velocity, Vector3.zero, Time.fixedDeltaTime * _myEntityData._maxForce * _myEntityData._timeToStop);
-        //    transform.position += _velocity * Time.fixedDeltaTime;
-        //}
-        //else
-        //{
-        //    AddForce(_direction);
-        //}
+        _fsm.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        _fsm.FixedUpdate();
     }
 
     public Vector3 UpdateTargetPosition(Vector3 targetPosition)
     {
         return TargetPosition = targetPosition;
+    }
+
+    public void FollowPath(Stack<Node> pathToFollow)
+    {
+        if (pathToFollow.Count == 0) return;
+
+        Vector3 nextPos = pathToFollow.Peek().transform.position;
+        Vector3 dir = nextPos - transform.position;
+        dir.y = 0;
+
+        AddForce(CalculateSteering(dir, _myEntityData.speed), _myEntityData.speed);
+
+
+        if (dir.sqrMagnitude < _myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed)
+        {
+            pathToFollow.Pop();
+        }
+    }
+
+    protected virtual void AddForce(Vector3 force, float speed)
+    {
+        _velocity += force;
+        _velocity = Vector3.ClampMagnitude(_velocity, speed);
+        transform.position += _velocity * Time.deltaTime;
+        transform.forward = _velocity;
+    }
+
+    protected Vector3 CalculateSteering(Vector3 desired, float speed)
+    {
+        desired.Normalize();
+        desired *= speed;
+        return Vector3.ClampMagnitude(desired - _velocity, _myEntityData._maxForce);
     }
 }

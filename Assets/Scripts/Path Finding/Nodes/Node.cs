@@ -7,13 +7,13 @@ public class Node : MonoBehaviour
     public bool IsBlocked { get; private set; }
     public int cost = 1;
     private List<Node> _neighbors = new List<Node>();
-    private NodesCreator _grid;
-    private Vector2Int _gridPosition;
-    [SerializeField] private LayerMask collisionLayer;
+    [SerializeReference] private NodesCreator _grid;
+    [SerializeReference] private Vector2Int _gridPosition;
+    [SerializeReference] private LayerMask _collisionLayer;
 
     private void Start()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.5f, collisionLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.5f, _collisionLayer);
 
         if (colliders.Length > 0)
         {
@@ -22,13 +22,15 @@ public class Node : MonoBehaviour
         else
         {
             SetBlocked(false);
+            NodesManager.Instance.SuscribeNode(this);
         }
     }
 
-    public void Initialize(NodesCreator grid, Vector2Int gridPosition)
+    public void Initialize(NodesCreator grid, Vector2Int gridPosition, LayerMask collisionLayer)
     {
         _grid = grid;
         _gridPosition = gridPosition;
+        _collisionLayer = collisionLayer;
     }
 
     public List<Node> GetNeighbors()
