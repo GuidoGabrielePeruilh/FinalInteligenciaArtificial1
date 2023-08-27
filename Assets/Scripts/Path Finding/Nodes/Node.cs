@@ -11,6 +11,8 @@ public class Node : MonoBehaviour
     [SerializeReference] private NodesCreator _grid;
     [SerializeReference] private Vector2Int _gridPosition;
     [SerializeReference] private LayerMask _collisionLayer;
+    [SerializeField] private int _blockedNodeLayerNumber;
+    [SerializeField] private int _noBlockedNodeLayerNumber;
     [SerializeField] private float _rangeToDetectWalls = 1f;
 
     private void Start()
@@ -50,7 +52,7 @@ public class Node : MonoBehaviour
     void SetBlocked(bool isBlock)
     {
         IsBlocked = isBlock;
-        gameObject.layer = isBlock ? 6 : 7;
+        gameObject.layer = isBlock ? _blockedNodeLayerNumber : _noBlockedNodeLayerNumber;
     }
 
     private void OnDrawGizmosSelected()

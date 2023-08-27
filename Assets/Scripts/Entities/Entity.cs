@@ -28,4 +28,21 @@ public abstract class Entity : MonoBehaviour
         desired *= speed;
         return Vector3.ClampMagnitude(desired - _velocity, _myEntityData._maxForce);
     }
+
+    public void FollowPath(Stack<Node> pathToFollow)
+    {
+        if (pathToFollow.Count == 0) return;
+
+        Vector3 nextPos = pathToFollow.Peek().transform.position;
+        Vector3 dir = nextPos - transform.position;
+        dir.y = 0;
+
+        AddForce(CalculateSteering(dir, _myEntityData.speed), _myEntityData.speed);
+
+
+        if (dir.sqrMagnitude < _myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed)
+        {
+            pathToFollow.Pop();
+        }
+    }
 }
