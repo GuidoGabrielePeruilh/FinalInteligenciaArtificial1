@@ -21,6 +21,12 @@ public class NodesManager : MonoBehaviour
         _nodes.Add(node);
     }
 
+    public void RemoveNode(Node node)
+    {
+        if (!_nodes.Contains(node)) return;
+        _nodes.Remove(node);
+    }
+
     public Node SetNode(Vector3 position)
     {
         float _minDistance = 1000000f;

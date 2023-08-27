@@ -117,4 +117,6 @@ MonoBehaviour:
   _collisionLayer:
     serializedVersion: 2
     m_Bits: 0
+  _blockedNodeLayerNumber: 6
+  _noBlockedNodeLayerNumber: 7
   _rangeToDetectWalls: 1.5

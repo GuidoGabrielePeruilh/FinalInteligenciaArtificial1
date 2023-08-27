@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b15676dc161e7544ac1331e57b73bc0, type: 3}
-  m_Name: Leaders
+  m_Name: Followers
   m_EditorClassIdentifier: 
   <speed>k__BackingField: 7
   <distanceToLowSpeed>k__BackingField: 1.5
