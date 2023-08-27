@@ -6,7 +6,8 @@ public class Inputs : MonoBehaviour
 {
     [SerializeField] Camera holographicCamera; 
     [SerializeField] ManageableEntities myEntityLeftClick; 
-    [SerializeField] ManageableEntities myEntityRightClick; 
+    [SerializeField] ManageableEntities myEntityRightClick;
+    
 
     private void Update()
     {
@@ -25,7 +26,6 @@ public class Inputs : MonoBehaviour
     {
         Ray ray = holographicCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
         if (Physics.Raycast(ray, out hit))
         {
             Vector3 targetPosition = hit.point;

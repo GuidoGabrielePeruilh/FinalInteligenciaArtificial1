@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Node : MonoBehaviour
@@ -7,13 +8,14 @@ public class Node : MonoBehaviour
     public bool IsBlocked { get; private set; }
     public int cost = 1;
     private List<Node> _neighbors = new List<Node>();
-    private NodesCreator _grid;
-    private Vector2Int _gridPosition;
-    [SerializeField] private LayerMask collisionLayer;
+    [SerializeReference] private NodesCreator _grid;
+    [SerializeReference] private Vector2Int _gridPosition;
+    [SerializeReference] private LayerMask _collisionLayer;
+    [SerializeField] private float _rangeToDetectWalls = 1f;
 
     private void Start()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.5f, collisionLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _rangeToDetectWalls, _collisionLayer);
 
         if (colliders.Length > 0)
         {
@@ -22,19 +24,25 @@ public class Node : MonoBehaviour
         else
         {
             SetBlocked(false);
+            NodesManager.Instance.SuscribeNode(this);
         }
     }
 
-    public void Initialize(NodesCreator grid, Vector2Int gridPosition)
+    public void Initialize(NodesCreator grid, Vector2Int gridPosition, LayerMask collisionLayer)
     {
         _grid = grid;
         _gridPosition = gridPosition;
+        _collisionLayer = collisionLayer;
     }
 
     public List<Node> GetNeighbors()
     {
         if (_neighbors.Count == 0)
+        {
             _neighbors = _grid.GetNeighborsFromPosition(_gridPosition.x, _gridPosition.y);
+
+            _neighbors = _neighbors.Where(neighbor => !neighbor.IsBlocked).ToList();
+        }
 
         return _neighbors;
     }
@@ -42,8 +50,13 @@ public class Node : MonoBehaviour
     void SetBlocked(bool isBlock)
     {
         IsBlocked = isBlock;
-        gameObject.layer = isBlock ? 6 : 0;
+        gameObject.layer = isBlock ? 6 : 7;
     }
 
-    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue; // Set the color of the Gizmos
+        Gizmos.DrawWireSphere(transform.position, _rangeToDetectWalls); // Draw the wire sphere at the transform's position
+    }
+
 }
