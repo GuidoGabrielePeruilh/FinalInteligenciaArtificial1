@@ -24,8 +24,17 @@ public class FollowersManager : MonoBehaviour
         }
     }
 
+    public float SeparationRadius
+    {
+        get
+        {
+            return _separationRadius * _separationRadius;
+        }
+    }
+
     [SerializeField] float _viewRadius;
     [SerializeField] float _arriveRadius;
+    [SerializeField] float _separationRadius;
 
     [field: SerializeField, Range(0f, 2.5f)]
     public float SeparationWeight { get; private set; }

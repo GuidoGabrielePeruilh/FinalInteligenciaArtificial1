@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FollowersEntities : Entity
 {
-    [SerializeField] private GameObject _leaderToFollow;
+    [SerializeField] private ManageableEntities _leaderToFollow;
+    private Vector3 combinedForces;
 
     private void Start()
     {
@@ -14,19 +15,25 @@ public class FollowersEntities : Entity
     private void Update()
     {
 
-        if (IsCloseFromLeader(_leaderToFollow))
+        var separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
+        var alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
+        var cohesionForce = Cohesion() * FollowersManager.Instance.CohesionWeight;
+
+        if (IsCloseFromLeader(_leaderToFollow.gameObject))
         {
-            AddForce(Arrive(_leaderToFollow), _myEntityData.speed);
+            if (_leaderToFollow.Velocity.sqrMagnitude < 0.1f)
+            {
+                AddForce(Separation() * FollowersManager.Instance.SeparationWeight, _myEntityData.speed);
+            }
+            else
+            {
+                AddForce(Arrive(_leaderToFollow.gameObject) + separationForce, _myEntityData.speed);
+            }
         }
         else
         {
-            Vector3 separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
-            Vector3 alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
-            Vector3 cohesionForce = Cohesion() * FollowersManager.Instance.CohesionWeight;
-
-            Vector3 combinedForces = separationForce + alignmentForce + cohesionForce;
-
-            AddForce(Seek(_leaderToFollow) + combinedForces, _myEntityData.speed);
+            var combinedForces = separationForce + alignmentForce + cohesionForce;
+            AddForce(Seek(_leaderToFollow.gameObject) + combinedForces, _myEntityData.speed);
         }
     }
 
@@ -45,13 +52,13 @@ public class FollowersEntities : Entity
 
         desired += distanceFromTarget;
         float arriveRadius = FollowersManager.Instance.ArriveRadius;
-        if (distanceFromTarget.magnitude <= arriveRadius)
+        if (distanceFromTarget.sqrMagnitude <= arriveRadius)
         {
             speed = _myEntityData.speed * ((distanceFromTarget.sqrMagnitude + 1) / arriveRadius);
         }
         desired *= speed;
 
-        if (desired.magnitude <= _myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed)
+        if (desired.sqrMagnitude <= _myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed)
         {
             _velocity = Vector3.zero;
             return Vector3.zero;
@@ -83,6 +90,8 @@ public class FollowersEntities : Entity
 
         foreach (FollowersEntities follower in FollowersManager.Instance.AllFollowers)
         {
+            if (follower == this) continue;
+
             Vector3 dirToEntity = follower.transform.position - transform.position;
 
             if (dirToEntity.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
@@ -90,13 +99,8 @@ public class FollowersEntities : Entity
                 desired -= dirToEntity;
             }
         }
-        Vector3 dirToLeader = _leaderToFollow.transform.position - transform.position;
-        if (dirToLeader.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
-        {
-            desired -= dirToLeader;
-        }
 
-        if (desired.magnitude <= _myEntityData.distanceToLowSpeed * _myEntityData.distanceToLowSpeed) return desired;
+        if (desired == Vector3.zero) return desired;
 
         return CalculateSteering(desired, _myEntityData.speed);
     }
@@ -115,7 +119,7 @@ public class FollowersEntities : Entity
 
             if (dirToBoid.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
             {
-                desired += follower._velocity;
+                desired += follower.Velocity;
                 count++;
             }
         }
@@ -157,9 +161,16 @@ public class FollowersEntities : Entity
     private void OnDrawGizmosSelected()
     {
        
-        Gizmos.color = Color.yellow; // Puedes cambiar el color a tu preferencia
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
+        
+        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
+        
+        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
 
-        // Dibuja un gizmo de esfera para el rango de llegada (Arrive)
-        Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(_myEntityData.distanceToLowSpeed));
     }
 }
