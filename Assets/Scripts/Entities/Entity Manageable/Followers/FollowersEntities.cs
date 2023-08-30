@@ -70,18 +70,18 @@ public class FollowersEntities : Entity
     Vector3 Seek(GameObject target)
     {
         Vector3 desired = Vector3.zero;
-        float speed = _myEntityData.speed;
 
         Vector3 dirToTarget = target.transform.position - transform.position;
+        desired += dirToTarget;
 
-        if (desired.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
+        if (desired.sqrMagnitude <= FollowersManager.Instance.SeparationRadius)
         {
-            desired += dirToTarget;
+            _velocity = Vector3.zero;
+            desired = Vector3.zero;
         }
 
         if (desired == Vector3.zero) return desired;
-
-        return CalculateSteering(desired, speed);
+        return CalculateSteering(desired, _myEntityData.speed);
     }
 
     private Vector3 Separation()
@@ -94,7 +94,7 @@ public class FollowersEntities : Entity
 
             Vector3 dirToEntity = follower.transform.position - transform.position;
 
-            if (dirToEntity.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
+            if (dirToEntity.sqrMagnitude <= FollowersManager.Instance.SeparationRadius)
             {
                 desired -= dirToEntity;
             }
@@ -117,7 +117,7 @@ public class FollowersEntities : Entity
 
             Vector3 dirToBoid = follower.transform.position - transform.position;
 
-            if (dirToBoid.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
+            if (dirToBoid.sqrMagnitude <= FollowersManager.Instance.AlignmentRadius)
             {
                 desired += follower.Velocity;
                 count++;
@@ -141,7 +141,7 @@ public class FollowersEntities : Entity
             if (follower == this) continue;
             Vector3 dirToBoid = follower.transform.position - transform.position;
 
-            if (dirToBoid.sqrMagnitude <= FollowersManager.Instance.ViewRadius)
+            if (dirToBoid.sqrMagnitude <= FollowersManager.Instance.CohesionRadius)
             {
                 desired += follower.transform.position;
 
@@ -158,7 +158,7 @@ public class FollowersEntities : Entity
         return CalculateSteering(desired, _myEntityData.speed);
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
        
         Gizmos.color = Color.red;
@@ -171,6 +171,5 @@ public class FollowersEntities : Entity
         
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
-
     }
 }
