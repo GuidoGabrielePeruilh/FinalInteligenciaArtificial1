@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     [SerializeField] protected EntityDataSO _myEntityData;
-    [SerializeField] private int collisionLayer;
 
     public Vector3 Velocity => _velocity;
     protected Vector3 _velocity;

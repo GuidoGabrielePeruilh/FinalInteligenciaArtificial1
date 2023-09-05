@@ -24,6 +24,7 @@ public class EntityFindPathState : IState
 
     public void OnExit()
     {
+
     }
 
     public void OnFixedUpdate()
