@@ -5,6 +5,8 @@ using UnityEngine;
 public class ManageableEntities : Entity
 {
     FSM<ManageableEntityStates> _fsm;
+    [SerializeField] GameObject target;
+    [SerializeField] Animator myAnimator;
     public Vector3 TargetPosition { get; private set; }
 
     private void Awake()
@@ -13,13 +15,16 @@ public class ManageableEntities : Entity
         _fsm = new FSM<ManageableEntityStates>();
 
         IState findPath = new EntityFindPathState(_fsm, this);
+        IState attack = new EntityAttackState(_fsm, this,target,myAnimator,"Attack", _myEntityData._attackCooldown);
         _fsm.AddState(ManageableEntityStates.FindPath, findPath);
+        _fsm.AddState(ManageableEntityStates.Attack, attack);
 
     }
 
     private void Start()
     {
-        _fsm.ChangeState(ManageableEntityStates.FindPath);
+        //_fsm.ChangeState(ManageableEntityStates.FindPath);
+        _fsm.ChangeState(ManageableEntityStates.Attack);
     }
 
     private void Update()
