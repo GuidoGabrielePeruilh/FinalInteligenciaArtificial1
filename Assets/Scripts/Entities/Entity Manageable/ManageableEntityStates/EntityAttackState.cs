@@ -6,17 +6,18 @@ public class EntityAttackState : IState
 {
     FSM<ManageableEntityStates> _fsm;
     ManageableEntities _myEntity;
-    GameObject _target;
     Animator _myAnimator;
     string _attackAnimationName;
     float _attackCooldown;
     float _timer;
+    GameObject _target;
+    Vector3 _initialPosition;
 
-    public EntityAttackState(FSM<ManageableEntityStates> fsm, ManageableEntities myEntity, GameObject target, Animator myAnimator,string attackAnimationName,  float attackCooldown)
+
+    public EntityAttackState(FSM<ManageableEntityStates> fsm, ManageableEntities myEntity, Animator myAnimator,string attackAnimationName,  float attackCooldown)
     {
         _fsm = fsm;
         _myEntity = myEntity;
-        _target = target;
         _myAnimator = myAnimator;
         _attackAnimationName = attackAnimationName;
         _attackCooldown = attackCooldown;
@@ -25,11 +26,15 @@ public class EntityAttackState : IState
     public void OnEnter()
     {
         _timer = _attackCooldown;
+        _target = _myEntity.AttackTarget;
+        _initialPosition = _myEntity.transform.position;
+        _myEntity.UpdateTargetPosition(_initialPosition);
     }
 
     public void OnExit()
     {
-        
+        _target = null;
+        _timer = 0;
     }
 
     public void OnFixedUpdate()
@@ -40,6 +45,20 @@ public class EntityAttackState : IState
     public void OnUpdate()
     {
         _timer += Time.deltaTime;
+
+        if (!_myEntity.HaveTargetToAttack())
+        {
+            _fsm.ChangeState(ManageableEntityStates.FindPath);
+            _target = _myEntity.AttackTarget;
+            return;
+        }
+
+        if (_initialPosition != _myEntity.TargetPosition)
+        {
+            _fsm.ChangeState(ManageableEntityStates.FindPath);
+            return;
+        }
+
         Vector3 lookDirection = (_target.transform.position - _myEntity.transform.position).normalized;
         _myEntity.transform.forward = lookDirection;
 
