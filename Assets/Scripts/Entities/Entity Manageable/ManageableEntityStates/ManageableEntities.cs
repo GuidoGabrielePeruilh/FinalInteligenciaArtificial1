@@ -5,7 +5,6 @@ using UnityEngine;
 public class ManageableEntities : Entity
 {
     FSM<ManageableEntityStates> _fsm;
-    [SerializeField] GameObject target;
     [SerializeField] Animator myAnimator;
     public Vector3 TargetPosition { get; private set; }
 
@@ -15,7 +14,7 @@ public class ManageableEntities : Entity
         _fsm = new FSM<ManageableEntityStates>();
 
         IState findPath = new EntityFindPathState(_fsm, this);
-        IState attack = new EntityAttackState(_fsm, this,target,myAnimator,"Attack", _myEntityData._attackCooldown);
+        IState attack = new EntityAttackState(_fsm, this,myAnimator,"Attack", _myEntityData.attackCooldown);
         _fsm.AddState(ManageableEntityStates.FindPath, findPath);
         _fsm.AddState(ManageableEntityStates.Attack, attack);
 
@@ -23,8 +22,7 @@ public class ManageableEntities : Entity
 
     private void Start()
     {
-        //_fsm.ChangeState(ManageableEntityStates.FindPath);
-        _fsm.ChangeState(ManageableEntityStates.Attack);
+        _fsm.ChangeState(ManageableEntityStates.FindPath);
     }
 
     private void Update()
@@ -40,5 +38,12 @@ public class ManageableEntities : Entity
     public Vector3 UpdateTargetPosition(Vector3 targetPosition)
     {
         return TargetPosition = targetPosition;
+    }
+
+    private void OnDrawGizmos()
+    {
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _myEntityData.attackRadius);
     }
 }

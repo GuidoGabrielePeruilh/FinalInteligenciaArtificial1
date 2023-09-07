@@ -24,7 +24,8 @@ public class EntityFindPathState : IState
 
     public void OnExit()
     {
-
+        _startingNode = null;
+        _goalNode = null;
     }
 
     public void OnFixedUpdate()
@@ -34,6 +35,9 @@ public class EntityFindPathState : IState
 
     public void OnUpdate()
     {
+        if (_entity.HaveTargetToAttack())
+            _fsm.ChangeState(ManageableEntityStates.Attack);
+
         _entity.FollowPath(_pathToFollow);
         if (_targetPosition == _entity.TargetPosition) return;
         _targetPosition = _entity.TargetPosition;
