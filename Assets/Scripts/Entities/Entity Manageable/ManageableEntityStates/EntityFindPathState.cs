@@ -35,8 +35,13 @@ public class EntityFindPathState : IState
 
     public void OnUpdate()
     {
-        if (_entity.HaveTargetToAttack())
-            _fsm.ChangeState(ManageableEntityStates.Attack);
+
+        if (!_entity.HasToMove)
+        {
+            Debug.Log($"Has to Move in Find Path: {_entity.HasToMove}");
+            _fsm.ChangeState(ManageableEntityStates.Idle);
+            return;
+        }
 
         _entity.FollowPath(_pathToFollow);
         if (_targetPosition == _entity.TargetPosition) return;

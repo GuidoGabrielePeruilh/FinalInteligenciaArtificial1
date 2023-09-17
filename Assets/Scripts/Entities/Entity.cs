@@ -16,7 +16,11 @@ public abstract class Entity : MonoBehaviour
     public GameObject AttackTarget => _attackTarget;
     protected GameObject _attackTarget;
 
-    
+    public Vector3 TargetPosition { get; protected set; }
+    public bool HasToMove { get; protected set; }
+
+
+
 
     public void Initialize(EntityDataSO entityData)
     {
@@ -64,7 +68,11 @@ public abstract class Entity : MonoBehaviour
 
     public void FollowPath(Stack<Node> pathToFollow)
     {
-        if (pathToFollow.Count == 0) return;
+        if (pathToFollow.Count == 0)
+        {
+            HasToMove = false;
+            return;
+        }
 
         Vector3 nextPos = pathToFollow.Peek().transform.position;
         Vector3 dir = nextPos - transform.position;
