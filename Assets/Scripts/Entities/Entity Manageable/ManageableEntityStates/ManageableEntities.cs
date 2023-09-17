@@ -6,7 +6,6 @@ public class ManageableEntities : Entity
 {
     FSM<ManageableEntityStates> _fsm;
     [SerializeField] Animator myAnimator;
-    public Vector3 TargetPosition { get; private set; }
 
     private void Awake()
     {
@@ -15,8 +14,10 @@ public class ManageableEntities : Entity
 
         IState findPath = new EntityFindPathState(_fsm, this);
         IState attack = new EntityAttackState(_fsm, this,myAnimator,"Attack", _myEntityData.attackCooldown);
+        IState idle = new EntityIdleState(_fsm, this);
         _fsm.AddState(ManageableEntityStates.FindPath, findPath);
         _fsm.AddState(ManageableEntityStates.Attack, attack);
+        _fsm.AddState(ManageableEntityStates.Idle, idle);
 
     }
 
@@ -37,6 +38,7 @@ public class ManageableEntities : Entity
 
     public Vector3 UpdateTargetPosition(Vector3 targetPosition)
     {
+        HasToMove = true;
         return TargetPosition = targetPosition;
     }
 
