@@ -29,7 +29,6 @@ public class ManageableEntities : Entity
     private void Update()
     {
         _fsm.Update();
-        Debug.Log(_fsm.CurrentState);
     }
 
     private void FixedUpdate()

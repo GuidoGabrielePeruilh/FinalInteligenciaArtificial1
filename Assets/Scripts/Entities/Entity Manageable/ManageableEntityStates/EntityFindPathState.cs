@@ -38,7 +38,6 @@ public class EntityFindPathState : IState
 
         if (!_entity.HasToMove)
         {
-            Debug.Log($"Has to Move in Find Path: {_entity.HasToMove}");
             _fsm.ChangeState(ManageableEntityStates.Idle);
             return;
         }
