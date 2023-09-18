@@ -105,10 +105,10 @@ public class LinqExercises : MonoBehaviour
 
     private IEnumerable<string> Ejercicio6()
     {
-        
+
         return items.Select(itemSelected =>
         {
-            if (items.Any(item => item.rarity == Rarity.Legendary)
+            if (items.Any(item => item.rarity == Rarity.Legendary))
             {
                 return "(L)" + itemSelected.name;
             }
@@ -116,7 +116,7 @@ public class LinqExercises : MonoBehaviour
             {
                 return "(N)" + itemSelected.name;
             }
-        })
+        });
     }
 
     private IEnumerable<Buff> Ejercicio7()
