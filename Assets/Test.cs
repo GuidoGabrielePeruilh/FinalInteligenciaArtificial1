@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Test : MonoBehaviour
@@ -14,7 +15,7 @@ public class Test : MonoBehaviour
 
         //myNumbers es una y array y le paso el mismo como parametro y ademas le agrego el Func<int, int> = x => x+1. Func<int es el x que recibe, int x+1 es el int que devuelve>
         //Al agregarle el metodo ToList deja de ser Lazy porque ese metodo ya llama al yield return
-        var modifiedNumbers = myNumbers.MapInts(x => x + 1).ToList();
+        var modifiedNumbers = myNumbers.MapInts(x => x + 1).CustomToList();
 
         foreach (int number in modifiedNumbers)
         {
@@ -22,5 +23,13 @@ public class Test : MonoBehaviour
         }
 
         modifiedNumbers.ToList();
+
+        IEnumerable<string> myStringCollection = myNumbers.Select(number => number.ToString()); //LinQ
+        IEnumerable<string> myStringCollection2 = myNumbers.CustomSelect(number => number.ToString()); //Custom
+
+        myStringCollection.ToArray();
+        myStringCollection.ToList();
     }
+
+
 }

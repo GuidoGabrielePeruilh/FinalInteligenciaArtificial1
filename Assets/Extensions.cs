@@ -49,7 +49,7 @@ public static class Extensions
         }
     }
 
-    public static List<T> ToList<T>(this IEnumerable<T> myCollection)
+    public static List<T> CustomToList<T>(this IEnumerable<T> myCollection)
     {
         var myList = new List<T>();
 
@@ -58,5 +58,13 @@ public static class Extensions
             myList.Add(item);
         }
         return myList;
+    }
+
+    public static IEnumerable<Dst> CustomSelect<Src, Dst>(this IEnumerable<Src> collection, System.Func<Src, Dst> selector)
+    {
+        foreach (var item in collection)
+        {
+            yield return selector(item);
+        }
     }
 }
