@@ -1,40 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using IA_I.Entity.Manegeable;
 
-public class EntityIdleState : IState
+namespace IA_I.FSM.StatesBehaviour
 {
-    FSM<ManageableEntityStates> _fsm;
-    ManageableEntities _entity;
-
-    public EntityIdleState(FSM<ManageableEntityStates> fsm, ManageableEntities entity)
+    public class EntityIdleState : IState
     {
-        _fsm = fsm;
-        _entity = entity;
-    }
-    public void OnEnter()
-    {
+        FSM<ManageableEntityStates> _fsm;
+        ManageableEntities _entity;
+
+        public EntityIdleState(FSM<ManageableEntityStates> fsm, ManageableEntities entity)
+        {
+            _fsm = fsm;
+            _entity = entity;
+        }
+        public void OnEnter()
+        {
+
+        }
+
+        public void OnExit()
+        {
+
+        }
+
+        public void OnFixedUpdate()
+        {
+
+        }
+
+        public void OnUpdate()
+        {
+            if (_entity.HaveTargetToAttack())
+                _fsm.ChangeState(ManageableEntityStates.Attack);
+
+            if (_entity.HasToMove)
+                _fsm.ChangeState(ManageableEntityStates.FindPath);
+
+        }
 
     }
-
-    public void OnExit()
-    {
-
-    }
-
-    public void OnFixedUpdate()
-    {
-
-    }
-
-    public void OnUpdate()
-    {
-        if (_entity.HaveTargetToAttack())
-            _fsm.ChangeState(ManageableEntityStates.Attack);
-
-        if (_entity.HasToMove)
-            _fsm.ChangeState(ManageableEntityStates.FindPath);
-
-    }
-
 }
+

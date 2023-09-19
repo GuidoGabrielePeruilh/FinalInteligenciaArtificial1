@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c02a00457adb147b1418eabb4f10c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myEntityData: {fileID: 11400000, guid: de92e725e999b504da6cc657c3086ac7, type: 2}
+  MyEntityData: {fileID: 11400000, guid: de92e725e999b504da6cc657c3086ac7, type: 2}
   _targetLayer:
     serializedVersion: 2
     m_Bits: 256

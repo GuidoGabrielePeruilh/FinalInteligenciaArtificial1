@@ -1,35 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using IA_I.Entity.Manegeable;
 using UnityEngine;
 
-public class Inputs : MonoBehaviour
+namespace IA_I.Inputs
 {
-    [SerializeField] Camera holographicCamera; 
-    [SerializeField] ManageableEntities myEntityLeftClick; 
-    [SerializeField] ManageableEntities myEntityRightClick;
-    
-
-    private void Update()
+    public class Inputs : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            GetClickPosition(myEntityLeftClick);
-        }
-        
-        if (Input.GetMouseButtonDown(1)) 
-        {
-            GetClickPosition(myEntityRightClick);
-        }
-    }
+        [SerializeField] Camera holographicCamera;
+        [SerializeField] ManageableEntities myEntityLeftClick;
+        [SerializeField] ManageableEntities myEntityRightClick;
 
-    private void GetClickPosition(ManageableEntities entityToMove)
-    {
-        Ray ray = holographicCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+
+        private void Update()
         {
-            Vector3 targetPosition = hit.point;
-            entityToMove.UpdateTargetPosition(targetPosition);
+            if (Input.GetMouseButtonDown(0))
+            {
+                GetClickPosition(myEntityLeftClick);
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                GetClickPosition(myEntityRightClick);
+            }
+        }
+
+        private void GetClickPosition(ManageableEntities entityToMove)
+        {
+            Ray ray = holographicCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Vector3 targetPosition = hit.point;
+                entityToMove.UpdateTargetPosition(targetPosition);
+            }
         }
     }
 }
+
