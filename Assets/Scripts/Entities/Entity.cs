@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace IA_I.Entity
+namespace IA_I.EntityNS
 {
     public abstract class Entity : MonoBehaviour
     {
         public EntityDataSO MyEntityData;
         [SerializeField] private LayerMask _targetLayer;
 
-        public Teams MyTeam => _myTeam;
-        [SerializeField] protected Teams _myTeam;
+        public Teams Team => _team;
+        [SerializeField] protected Teams _team;
         public Vector3 Velocity => _velocity;
         protected Vector3 _velocity;
         protected Collider[] _targets;
@@ -21,11 +21,6 @@ namespace IA_I.Entity
         public Vector3 TargetPosition { get; protected set; }
         public bool HasToMove { get; protected set; }
         public float CurrentLife { get; protected set; }
-
-
-
-
-
         public void Initialize(EntityDataSO entityData)
         {
             MyEntityData = entityData;
@@ -55,7 +50,7 @@ namespace IA_I.Entity
             var filteredTargets = _targets.Where(target => 
             {
                 var teamIdentifier = target.GetComponent<Entity>();
-                return teamIdentifier == null || teamIdentifier.MyTeam != _myTeam; 
+                return teamIdentifier == null || teamIdentifier.Team != _team; 
             })
                 .ToArray();
 

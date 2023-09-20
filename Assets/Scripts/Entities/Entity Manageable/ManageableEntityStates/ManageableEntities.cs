@@ -1,7 +1,7 @@
 using IA_I.FSM.StatesBehaviour;
 using UnityEngine;
 
-namespace IA_I.Entity.Manegeable
+namespace IA_I.EntityNS.Manegeable
 {
     public class ManageableEntities : Entity
     {
@@ -11,6 +11,7 @@ namespace IA_I.Entity.Manegeable
         private void Awake()
         {
             UpdateTargetPosition(transform.position);
+            CurrentLife = MyEntityData.maxLife;
             _fsm = new FSM<ManageableEntityStates>();
 
             IState findPath = new EntityFindPathState(_fsm, this);
@@ -30,6 +31,7 @@ namespace IA_I.Entity.Manegeable
         private void Update()
         {
             _fsm.Update();
+
         }
 
         private void FixedUpdate()

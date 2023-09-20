@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IA_I.Entity.Follower
+namespace IA_I.EntityNS.Follower
 {
     public class FollowersManager : MonoBehaviour
     {

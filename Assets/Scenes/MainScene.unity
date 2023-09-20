@@ -172,7 +172,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 0}
 --- !u!1 &37194951
 GameObject:
@@ -939,7 +939,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &544155075 stripped
 GameObject:
@@ -995,7 +995,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 0}
 --- !u!1 &658506093
 GameObject:
@@ -1046,7 +1046,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &680953988
 GameObject:
@@ -1583,7 +1583,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 0}
 --- !u!1 &897655132
 GameObject:
@@ -1634,7 +1634,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 0}
 --- !u!1 &915607774
 GameObject:
@@ -1796,10 +1796,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 442897709130317194, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841337592647956792, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8097116310012144324, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 167241b5c4812a0458f7c3668fa5ea96, type: 2}
+    - target: {fileID: 8097116310285415412, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: _team
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8097116310285415412, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: target
       value: 
@@ -1863,6 +1875,14 @@ PrefabInstance:
     - target: {fileID: 8097116310285415415, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209166865430963592, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209166865430963592, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64bf915712606e241822a3ac05389151, type: 3}
@@ -2398,7 +2418,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &1289298618
 GameObject:
@@ -2532,7 +2552,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 0}
 --- !u!1 &1535019990
 GameObject:
@@ -2682,7 +2702,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &1580707569
 GameObject:
@@ -2733,7 +2753,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  _myTeam: 0
+  _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &1600529574
 GameObject:
@@ -3704,6 +3724,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 442897709130317194, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6841337592647956792, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8097116310285415414, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3751,6 +3779,14 @@ PrefabInstance:
     - target: {fileID: 8097116310285415415, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: m_Name
       value: Leader (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209166865430963592, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8209166865430963592, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64bf915712606e241822a3ac05389151, type: 3}

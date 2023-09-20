@@ -1,6 +1,6 @@
 using IA_I.Damageables;
 
-namespace IA_I.Entity
+namespace IA_I.EntityNS
 {
     public class EntityDamageable : Damageable, IDamageable
     {

@@ -1,4 +1,4 @@
-using IA_I.Entity.Manegeable;
+using IA_I.EntityNS.Manegeable;
 
 namespace IA_I.FSM.StatesBehaviour
 {

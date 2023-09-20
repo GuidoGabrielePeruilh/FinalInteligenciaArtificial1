@@ -1,9 +1,9 @@
-using IA_I.Entity.Manegeable;
+using IA_I.EntityNS.Manegeable;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IA_I.Entity.Follower
+namespace IA_I.EntityNS.Follower
 {
     public class FollowersEntities : Entity
     {
