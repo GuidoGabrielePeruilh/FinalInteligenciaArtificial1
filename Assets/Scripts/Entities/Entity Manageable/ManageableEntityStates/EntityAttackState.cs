@@ -1,74 +1,77 @@
-using System.Collections;
-using System.Collections.Generic;
+using IA_I.EntityNS.Manegeable;
 using UnityEngine;
 
-public class EntityAttackState : IState
+namespace IA_I.FSM.StatesBehaviour
 {
-    FSM<ManageableEntityStates> _fsm;
-    ManageableEntities _myEntity;
-    Animator _myAnimator;
-    string _attackAnimationName;
-    float _attackCooldown;
-    float _timer;
-    GameObject _target;
-
-
-    public EntityAttackState(FSM<ManageableEntityStates> fsm, ManageableEntities myEntity, Animator myAnimator,string attackAnimationName,  float attackCooldown)
+    public class EntityAttackState : IState
     {
-        _fsm = fsm;
-        _myEntity = myEntity;
-        _myAnimator = myAnimator;
-        _attackAnimationName = attackAnimationName;
-        _attackCooldown = attackCooldown;
-    }
+        FSM<ManageableEntityStates> _fsm;
+        ManageableEntities _myEntity;
+        Animator _myAnimator;
+        string _attackAnimationName;
+        float _attackCooldown;
+        float _timer;
+        GameObject _target;
 
-    public void OnEnter()
-    {
-        _timer = _attackCooldown;
-        _target = _myEntity.AttackTarget;
-    }
 
-    public void OnExit()
-    {
-        _target = null;
-        _timer = 0;
-    }
-
-    public void OnFixedUpdate()
-    {
-        
-    }
-
-    public void OnUpdate()
-    {
-        if (_myEntity.HasToMove)
+        public EntityAttackState(FSM<ManageableEntityStates> fsm, ManageableEntities myEntity, Animator myAnimator, string attackAnimationName, float attackCooldown)
         {
-            _fsm.ChangeState(ManageableEntityStates.FindPath);
-            return;
+            _fsm = fsm;
+            _myEntity = myEntity;
+            _myAnimator = myAnimator;
+            _attackAnimationName = attackAnimationName;
+            _attackCooldown = attackCooldown;
         }
 
-        if (!_myEntity.HaveTargetToAttack())
+        public void OnEnter()
         {
-            _fsm.ChangeState(ManageableEntityStates.Idle);
-            return;
+            _timer = _attackCooldown;
+            _target = _myEntity.AttackTarget;
         }
 
-        _timer += Time.deltaTime;
-
-
-        //if (_myEntity.HaveTargetToAttack())
-        //{
-        //    _target = _myEntity.AttackTarget;
-        //}
-
-        Vector3 lookDirection = (_target.transform.position - _myEntity.transform.position).normalized;
-        _myEntity.transform.forward = lookDirection;
-
-        if (_timer >= _attackCooldown)
+        public void OnExit()
         {
-            _myAnimator.SetTrigger(_attackAnimationName);
+            _target = null;
             _timer = 0;
         }
-        
+
+        public void OnFixedUpdate()
+        {
+
+        }
+
+        public void OnUpdate()
+        {
+            if (_myEntity.HasToMove)
+            {
+                _fsm.ChangeState(ManageableEntityStates.FindPath);
+                return;
+            }
+
+            if (!_myEntity.HaveTargetToAttack())
+            {
+                _fsm.ChangeState(ManageableEntityStates.Idle);
+                return;
+            }
+
+            _timer += Time.deltaTime;
+
+
+            //if (_myEntity.HaveTargetToAttack())
+            //{
+            //    _target = _myEntity.AttackTarget;
+            //}
+
+            Vector3 lookDirection = (_target.transform.position - _myEntity.transform.position).normalized;
+            _myEntity.transform.forward = lookDirection;
+
+            if (_timer >= _attackCooldown)
+            {
+                _myAnimator.SetTrigger(_attackAnimationName);
+                _timer = 0;
+            }
+
+        }
     }
 }
+

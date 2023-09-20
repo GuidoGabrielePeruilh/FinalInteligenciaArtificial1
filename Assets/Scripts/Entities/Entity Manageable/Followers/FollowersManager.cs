@@ -2,83 +2,87 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowersManager : MonoBehaviour
+namespace IA_I.EntityNS.Follower
 {
-    public static FollowersManager Instance { get; private set; }
-
-    public List<FollowersEntities> AllFollowers { get; private set; }
-
-    public float ViewRadius
+    public class FollowersManager : MonoBehaviour
     {
-        get
+        public static FollowersManager Instance { get; private set; }
+
+        public List<FollowersEntities> AllFollowers { get; private set; }
+
+        public float ViewRadius
         {
-            return _viewRadius * _viewRadius;
+            get
+            {
+                return _viewRadius * _viewRadius;
+            }
         }
-    }
 
-    public float ArriveRadius
-    {
-        get
+        public float ArriveRadius
         {
-            return _arriveRadius * _arriveRadius;
+            get
+            {
+                return _arriveRadius * _arriveRadius;
+            }
         }
-    }
 
-    public float SeparationRadius
-    {
-        get
+        public float SeparationRadius
         {
-            return _separationRadius * _separationRadius;
+            get
+            {
+                return _separationRadius * _separationRadius;
+            }
         }
-    }
 
-    public float AlignmentRadius
-    {
-        get
+        public float AlignmentRadius
         {
-            return _alignmentRadius * _alignmentRadius;
+            get
+            {
+                return _alignmentRadius * _alignmentRadius;
+            }
         }
-    }
 
-    public float CohesionRadius
-    {
-        get
+        public float CohesionRadius
         {
-            return _cohesionRadius * _cohesionRadius;
+            get
+            {
+                return _cohesionRadius * _cohesionRadius;
+            }
         }
-    }
 
-    [SerializeField] float _viewRadius;
-    [SerializeField] float _arriveRadius;
-    [SerializeField] float _separationRadius;
-    [SerializeField] float _alignmentRadius;
-    [SerializeField] float _cohesionRadius;
+        [SerializeField] float _viewRadius;
+        [SerializeField] float _arriveRadius;
+        [SerializeField] float _separationRadius;
+        [SerializeField] float _alignmentRadius;
+        [SerializeField] float _cohesionRadius;
 
-    [field: SerializeField, Range(0f, 2.5f)]
-    public float SeparationWeight { get; private set; }
+        [field: SerializeField, Range(0f, 2.5f)]
+        public float SeparationWeight { get; private set; }
 
-    [field: SerializeField, Range(0f, 2.5f)]
-    public float AlignmentWeight { get; private set; }
+        [field: SerializeField, Range(0f, 2.5f)]
+        public float AlignmentWeight { get; private set; }
 
-    [field: SerializeField, Range(0f, 2.5f)]
-    public float CohesionWeight { get; private set; }
+        [field: SerializeField, Range(0f, 2.5f)]
+        public float CohesionWeight { get; private set; }
 
-    void Awake()
-    {
-        Instance = this;
+        void Awake()
+        {
+            Instance = this;
 
-        AllFollowers = new List<FollowersEntities>();
-    }
+            AllFollowers = new List<FollowersEntities>();
+        }
 
-    public void RegisterNewFollower(FollowersEntities newFollower)
-    {
-        if (!AllFollowers.Contains(newFollower))
-            AllFollowers.Add(newFollower);
-    }
+        public void RegisterNewFollower(FollowersEntities newFollower)
+        {
+            if (!AllFollowers.Contains(newFollower))
+                AllFollowers.Add(newFollower);
+        }
 
-    public void RemoveFollower(FollowersEntities followerToRemove)
-    {
-        if (AllFollowers.Contains(followerToRemove))
-            AllFollowers.Remove(followerToRemove);
+        public void RemoveFollower(FollowersEntities followerToRemove)
+        {
+            if (AllFollowers.Contains(followerToRemove))
+                AllFollowers.Remove(followerToRemove);
+        }
     }
 }
+

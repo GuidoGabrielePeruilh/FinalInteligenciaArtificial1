@@ -1,51 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
+using IA_I.FSM.StatesBehaviour;
 using UnityEngine;
 
-public class ManageableEntities : Entity
+namespace IA_I.EntityNS.Manegeable
 {
-    FSM<ManageableEntityStates> _fsm;
-    [SerializeField] Animator myAnimator;
-
-    private void Awake()
+    public class ManageableEntities : Entity
     {
-        UpdateTargetPosition(transform.position);
-        _fsm = new FSM<ManageableEntityStates>();
+        FSM<ManageableEntityStates> _fsm;
+        [SerializeField] Animator myAnimator;
 
-        IState findPath = new EntityFindPathState(_fsm, this);
-        IState attack = new EntityAttackState(_fsm, this,myAnimator,"Attack", _myEntityData.attackCooldown);
-        IState idle = new EntityIdleState(_fsm, this);
-        _fsm.AddState(ManageableEntityStates.FindPath, findPath);
-        _fsm.AddState(ManageableEntityStates.Attack, attack);
-        _fsm.AddState(ManageableEntityStates.Idle, idle);
+        private void Awake()
+        {
+            UpdateTargetPosition(transform.position);
+            CurrentLife = MyEntityData.maxLife;
+            _fsm = new FSM<ManageableEntityStates>();
 
-    }
+            IState findPath = new EntityFindPathState(_fsm, this);
+            IState attack = new EntityAttackState(_fsm, this, myAnimator, "Attack", MyEntityData.attackCooldown);
+            IState idle = new EntityIdleState(_fsm, this);
+            _fsm.AddState(ManageableEntityStates.FindPath, findPath);
+            _fsm.AddState(ManageableEntityStates.Attack, attack);
+            _fsm.AddState(ManageableEntityStates.Idle, idle);
 
-    private void Start()
-    {
-        _fsm.ChangeState(ManageableEntityStates.FindPath);
-    }
+        }
 
-    private void Update()
-    {
-        _fsm.Update();
-    }
+        private void Start()
+        {
+            _fsm.ChangeState(ManageableEntityStates.FindPath);
+        }
 
-    private void FixedUpdate()
-    {
-        _fsm.FixedUpdate();
-    }
+        private void Update()
+        {
+            _fsm.Update();
 
-    public Vector3 UpdateTargetPosition(Vector3 targetPosition)
-    {
-        HasToMove = true;
-        return TargetPosition = targetPosition;
-    }
+        }
 
-    private void OnDrawGizmos()
-    {
+        private void FixedUpdate()
+        {
+            _fsm.FixedUpdate();
+        }
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _myEntityData.attackRadius);
+        public Vector3 UpdateTargetPosition(Vector3 targetPosition)
+        {
+            HasToMove = true;
+            return TargetPosition = targetPosition;
+        }
+
+        private void OnDrawGizmos()
+        {
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, MyEntityData.attackRadius);
+        }
     }
 }
+
