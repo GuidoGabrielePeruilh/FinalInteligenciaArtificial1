@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -47,7 +48,17 @@ public class AggregateExercises : MonoBehaviour {
     }
     
     private int Ejercicio2() {
-        return numbers.Aggregate(5, (acum, current) => acum + current);
+        return numbers.Aggregate(new Tuple<int, int>(0, 0), (myTuple, number) =>
+        {
+            var total = myTuple.Item2;
+            if (myTuple.Item1 >= 5)
+            {
+                total += number;
+            }
+            Tuple<int, int> newTuple = Tuple.Create<int, int>(myTuple.Item1 + 1, total);
+            return newTuple;
+        }).Item2;
+        //return numbers.Skip(5).Aggregate(0, (acum, current) => acum + current);
     }
     
     private int Ejercicio3() {
@@ -56,18 +67,33 @@ public class AggregateExercises : MonoBehaviour {
     }
 
     private List<int> Ejercicio4() {
-        //Reemplacen esta linea con su ejercicio
-        return new List<int>();
+
+        return numbers.Aggregate(new List<int>(), (pairNumbers, current) =>
+        {
+            if (current % 2 == 0)
+            {
+                pairNumbers.Add(current);
+            }
+            return pairNumbers;
+        });
     }
 
     private IEnumerable<int> Ejercicio5() {
-        //Reemplacen esta linea con su ejercicio
-        return Enumerable.Empty<int>();
+
+        return numbers.Where(number => number % 2 == 0);
     }
 
     private List<int> Ejercicio6() {
-        //Reemplacen esta linea con su ejercicio
-        return new List<int>();
+
+        return numbers.Aggregate(new Tuple<int, List<int>>(0, new List<int>()), (myTuple, number) =>
+        {
+            if (myTuple.Item1 % 2 == 0)
+            {
+                myTuple.Item2.Add(number);
+            }
+            var newTuple = Tuple.Create<int, List<int>>(myTuple.Item1 + 1, myTuple.Item2); 
+            return newTuple;
+        }).Item2;
     }
 
     
