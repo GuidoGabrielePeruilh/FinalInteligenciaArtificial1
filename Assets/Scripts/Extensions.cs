@@ -31,4 +31,11 @@ public static class Extensions
 
         return objectToReturn;
     }
+
+    public static bool InLineOfSight(Vector3 start, Vector3 end, LayerMask blockViewLayer)
+    {
+        Vector3 dir = end - start;
+
+        return !Physics.Raycast(start, dir, dir.magnitude, blockViewLayer);
+    }
 }

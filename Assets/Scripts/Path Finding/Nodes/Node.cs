@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    public bool IsBlocked { get; private set; }
     public int cost = 1;
-    private List<Node> _neighbors = new List<Node>();
     [SerializeReference] private NodesCreator _grid;
     [SerializeReference] private Vector2Int _gridPosition;
     [SerializeReference] private LayerMask _collisionLayer;
+    [SerializeField] public bool IsBlocked { get; private set; }
     [SerializeField] private int _blockedNodeLayerNumber;
     [SerializeField] private int _noBlockedNodeLayerNumber;
     [SerializeField] private float _rangeToDetectWalls = 1f;
+    [SerializeReference] private List<Node> _neighbors = new List<Node>();
 
     private void Start()
     {
@@ -22,6 +22,7 @@ public class Node : MonoBehaviour
         if (colliders.Length > 0)
         {
             SetBlocked(true);
+            NodesManager.Instance.SuscribeBlockedNode(this);
         }
         else
         {
@@ -45,7 +46,6 @@ public class Node : MonoBehaviour
 
             _neighbors = _neighbors.Where(neighbor => !neighbor.IsBlocked).ToList();
         }
-
         return _neighbors;
     }
 
@@ -57,8 +57,8 @@ public class Node : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue; // Set the color of the Gizmos
-        Gizmos.DrawWireSphere(transform.position, _rangeToDetectWalls); // Draw the wire sphere at the transform's position
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, _rangeToDetectWalls);
     }
 
 }

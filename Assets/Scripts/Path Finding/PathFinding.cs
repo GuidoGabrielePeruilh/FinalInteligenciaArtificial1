@@ -20,7 +20,7 @@ public class PathFinding
 
         while (current + 2 < path.Count)
         {
-            if (InLineOfSight(start: path[current].transform.position, end: path[current + 2].transform.position))
+            if (Extensions.InLineOfSight(path[current].transform.position,path[current + 2].transform.position, NodesManager.Instance.BlockedNodeLayer))
             {
                 path.RemoveAt(current + 1);
             }
@@ -33,12 +33,12 @@ public class PathFinding
         return path;
     }
 
-    bool InLineOfSight(Vector3 start, Vector3 end)
-    {
-        Vector3 dir = end - start;
+    //bool InLineOfSight(Vector3 start, Vector3 end)
+    //{
+    //    Vector3 dir = end - start;
 
-        return !Physics.Raycast(start, dir, dir.magnitude, NodesManager.Instance.BlockedNodeLayer);
-    }
+    //    return !Physics.Raycast(start, dir, dir.magnitude, NodesManager.Instance.BlockedNodeLayer);
+    //}
 
     public Stack<Node> AStar(Node startingNode, Node goalNode)
     {

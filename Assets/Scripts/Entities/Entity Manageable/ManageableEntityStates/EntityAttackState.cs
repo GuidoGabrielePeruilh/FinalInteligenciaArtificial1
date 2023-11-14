@@ -1,5 +1,6 @@
 using IA_I.EntityNS.Manegeable;
 using UnityEngine;
+using System.Linq;
 
 namespace IA_I.FSM.StatesBehaviour
 {
@@ -44,6 +45,10 @@ namespace IA_I.FSM.StatesBehaviour
         {
             if (_myEntity.HasToMove)
             {
+                if (_myEntity.HasLowLife)
+                {
+                    _myEntity.UpdateTargetPosition(_myEntity.GetRandomNodeToRun().transform.position);
+                }
                 _fsm.ChangeState(ManageableEntityStates.FindPath);
                 return;
             }

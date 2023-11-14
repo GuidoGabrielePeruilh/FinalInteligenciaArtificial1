@@ -12,6 +12,7 @@ namespace IA_I.EntityNS.Manegeable
         {
             UpdateTargetPosition(transform.position);
             CurrentLife = MyEntityData.maxLife;
+            HasLowLife = false;
             _fsm = new FSM<ManageableEntityStates>();
 
             IState findPath = new EntityFindPathState(_fsm, this);

@@ -20,6 +20,7 @@ namespace IA_I.EntityNS
 
         public Vector3 TargetPosition { get; protected set; }
         public bool HasToMove { get; protected set; }
+        public bool HasLowLife { get; protected set; }
         public float CurrentLife { get; protected set; }
         public void Initialize(EntityDataSO entityData)
         {
@@ -39,6 +40,20 @@ namespace IA_I.EntityNS
             desired.Normalize();
             desired *= speed;
             return Vector3.ClampMagnitude(desired - _velocity, MyEntityData.maxForce);
+        }
+
+        public Node GetRandomNodeToRun()
+        {
+            var myPosiblesNodes = NodesManager.Instance.GetAllNodes()
+                .Where(node => node.IsBlocked)
+                .SelectMany(node => node.GetNeighbors())
+                .OrderByDescending(node => Vector3.Distance(node.transform.position, transform.position))
+                .Take(50)
+                .ToList();
+
+
+            var randomNode = Random.Range(0, myPosiblesNodes.Count);
+            return myPosiblesNodes[randomNode];
         }
 
         public bool HaveTargetToAttack()
@@ -70,6 +85,7 @@ namespace IA_I.EntityNS
             if (pathToFollow.Count == 0)
             {
                 HasToMove = false;
+                HasLowLife = false;
                 return;
             }
 
@@ -89,6 +105,11 @@ namespace IA_I.EntityNS
         public void OnDamageRecived(float dmg)
         {
             CurrentLife -= dmg;
+            if (CurrentLife <= MyEntityData.maxLife * MyEntityData.percentageOfLifeToRunAway)
+            {
+                HasLowLife = true;
+                HasToMove = true;
+            }
             if (CurrentLife > 0) return;
             Destroy(gameObject);
         }
