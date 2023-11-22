@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d665e3abac9515a4d880a8cf78939f5f, type: 3}
   m_Name: SwordData
   m_EditorClassIdentifier: 
-  <damage>k__BackingField: 25
+  <damage>k__BackingField: 50
