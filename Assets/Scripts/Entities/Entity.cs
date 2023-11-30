@@ -22,9 +22,10 @@ namespace IA_I.EntityNS
         public bool HasToMove { get; protected set; }
         public bool HasLowLife { get; protected set; }
         public float CurrentLife { get; protected set; }
-        public void Initialize(EntityDataSO entityData)
+
+        protected void Awake()
         {
-            MyEntityData = entityData;
+            gameObject.tag = _team.ToString();
         }
 
         protected virtual void AddForce(Vector3 force, float speed)
@@ -61,15 +62,13 @@ namespace IA_I.EntityNS
             _targets = Physics.OverlapSphere(transform.position, MyEntityData.attackRadius, _targetLayer);
 
             if (_targets.Length == 0) return false;
-        
-            var filteredTargets = _targets.Where(target => 
-            {
-                var teamIdentifier = target.GetComponent<Entity>();
-                return teamIdentifier == null || teamIdentifier.Team != _team; 
-            })
+
+            var filteredTargets = _targets
+                .Select(target => target.GetComponent<Entity>())
+                .Where(target => target != null && target.Team != _team)
                 .ToArray();
 
-            var myTarget = filteredTargets.GetClosesObject(transform.position);
+            var myTarget = filteredTargets.GetClosestObject(transform.position);
 
             if (myTarget != null)
             {

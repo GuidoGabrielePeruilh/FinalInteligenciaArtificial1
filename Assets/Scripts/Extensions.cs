@@ -3,28 +3,31 @@ using UnityEngine;
 
 public static class Extensions
 {
-    public static GameObject GetClosesObject(this IEnumerable<Collider> objs, Vector3 position)
+    public static T GetClosestObject<T>(this IEnumerable<T> objs, Vector3 position) where T : Component
     {
-        if (objs == null) return null;
-
+        if (objs == null) return default(T);
 
         var maxDistance = Mathf.Infinity;
-        GameObject objectToReturn =  null;
+        T objectToReturn = default(T);
+
         foreach (var obj in objs)
         {
-            var distance = Vector3.Distance(obj.transform.position, position);
+            var objTransform = obj.transform;
+            if (objTransform == null)
+                continue;
+
+            var distance = Vector3.Distance(objTransform.position, position);
 
             if (maxDistance == Mathf.Infinity || objectToReturn == null)
             {
                 maxDistance = distance;
-                objectToReturn = obj.gameObject;
+                objectToReturn = obj;
                 continue;
             }
 
-
             if (distance <= maxDistance)
             {
-                objectToReturn = obj.gameObject;
+                objectToReturn = obj;
                 maxDistance = distance;
             }
         }

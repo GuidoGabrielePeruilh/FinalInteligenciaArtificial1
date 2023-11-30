@@ -1,4 +1,6 @@
+using IA_I.EntityNS.Follower;
 using IA_I.FSM.StatesBehaviour;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IA_I.EntityNS.Manegeable
@@ -7,9 +9,11 @@ namespace IA_I.EntityNS.Manegeable
     {
         FSM<ManageableEntityStates> _fsm;
         [SerializeField] Animator myAnimator;
+        [SerializeField] List<FollowersEntities> _myFollowers;
 
         private void Awake()
         {
+            base.Awake();
             UpdateTargetPosition(transform.position);
             CurrentLife = MyEntityData.maxLife;
             HasLowLife = false;
@@ -44,6 +48,18 @@ namespace IA_I.EntityNS.Manegeable
         {
             HasToMove = true;
             return TargetPosition = targetPosition;
+        }
+
+        public void AddFollower(FollowersEntities follower)
+        {
+            if (!_myFollowers.Contains(follower))
+                _myFollowers.Add(follower);
+        }
+
+        public void RemoveFollower(FollowersEntities follower)
+        {
+            if (_myFollowers.Contains(follower))
+                _myFollowers.Remove(follower);
         }
 
         private void OnDrawGizmos()

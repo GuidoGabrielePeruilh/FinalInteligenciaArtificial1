@@ -8,11 +8,10 @@ namespace IA_I.EntityNS.Follower
     public class FollowersEntities : Entity
     {
         [SerializeField] private ManageableEntities _leaderToFollow;
-        private Vector3 combinedForces;
 
         private void Start()
         {
-            FollowersManager.Instance.RegisterNewFollower(this);
+            FollowersManager.Instance.RegisterNewFollower(this, _leaderToFollow);
         }
 
         private void Update()

@@ -61,12 +61,6 @@ namespace IA_I.FSM.StatesBehaviour
 
             _timer += Time.deltaTime;
 
-
-            //if (_myEntity.HaveTargetToAttack())
-            //{
-            //    _target = _myEntity.AttackTarget;
-            //}
-
             Vector3 lookDirection = (_target.transform.position - _myEntity.transform.position).normalized;
             _myEntity.transform.forward = lookDirection;
 

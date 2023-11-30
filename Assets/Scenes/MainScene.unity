@@ -168,12 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _team: 0
-  _leaderToFollow: {fileID: 0}
+    m_Bits: 256
+  _team: 1
+  _leaderToFollow: {fileID: 2116197814}
 --- !u!1 &37194951
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &76449228
 Transform:
   m_ObjectHideFlags: 0
@@ -772,7 +772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &364176761
 Transform:
   m_ObjectHideFlags: 0
@@ -935,10 +935,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &544155075 stripped
@@ -991,12 +991,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _team: 0
-  _leaderToFollow: {fileID: 0}
+    m_Bits: 256
+  _team: 1
+  _leaderToFollow: {fileID: 2116197814}
 --- !u!1 &658506093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,10 +1042,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &680953988
@@ -1579,12 +1579,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _team: 0
-  _leaderToFollow: {fileID: 0}
+    m_Bits: 256
+  _team: 1
+  _leaderToFollow: {fileID: 2116197814}
 --- !u!1 &897655132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,12 +1630,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _team: 0
-  _leaderToFollow: {fileID: 0}
+    m_Bits: 256
+  _team: 1
+  _leaderToFollow: {fileID: 2116197814}
 --- !u!1 &915607774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,8 +1669,8 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 0
-  _radiusToFindNode: 0.5
-  _nodes: []
+  _validNodes: []
+  _invalidNodes: []
 --- !u!114 &915607776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2414,10 +2414,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &1289298618
@@ -2548,12 +2548,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _team: 0
-  _leaderToFollow: {fileID: 0}
+    m_Bits: 256
+  _team: 1
+  _leaderToFollow: {fileID: 2116197814}
 --- !u!1 &1535019990
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,10 +2698,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &1580707569
@@ -2749,10 +2749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8958c4c1541c13c4f8ac70f0e9e364d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MyEntityData: {fileID: 0}
+  MyEntityData: {fileID: 11400000, guid: b23b86beb0e3a38478197374456ff420, type: 2}
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
 --- !u!1 &1600529574

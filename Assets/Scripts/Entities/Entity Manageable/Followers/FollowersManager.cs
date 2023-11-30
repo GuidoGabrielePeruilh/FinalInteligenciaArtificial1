@@ -1,3 +1,4 @@
+using IA_I.EntityNS.Manegeable;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,16 +73,22 @@ namespace IA_I.EntityNS.Follower
             AllFollowers = new List<FollowersEntities>();
         }
 
-        public void RegisterNewFollower(FollowersEntities newFollower)
+        public void RegisterNewFollower(FollowersEntities newFollower, ManageableEntities leaderOwner)
         {
             if (!AllFollowers.Contains(newFollower))
+            {
                 AllFollowers.Add(newFollower);
+                leaderOwner.AddFollower(newFollower);
+            }
         }
 
-        public void RemoveFollower(FollowersEntities followerToRemove)
+        public void RemoveFollower(FollowersEntities followerToRemove, ManageableEntities leaderOwner)
         {
             if (AllFollowers.Contains(followerToRemove))
+            {
                 AllFollowers.Remove(followerToRemove);
+                leaderOwner.RemoveFollower(followerToRemove);
+            }
         }
     }
 }
