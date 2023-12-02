@@ -33,7 +33,10 @@ namespace IA_I.EntityNS
             _velocity += force;
             _velocity = Vector3.ClampMagnitude(_velocity, speed);
             transform.position += _velocity * Time.deltaTime;
-            transform.forward = _velocity;
+            if (_velocity.magnitude > 0.001f)
+            {
+                transform.forward = _velocity.normalized;
+            }
         }
 
         protected Vector3 CalculateSteering(Vector3 desired, float speed)

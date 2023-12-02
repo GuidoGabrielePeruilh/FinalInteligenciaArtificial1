@@ -1,8 +1,9 @@
-public enum ManageableEntityStates
+namespace IA_I.EntityNS.Manegeable
 {
-    Idle,
-    Chase,
-    FindPath,
-    Attack,
-    RunAway
+    public enum ManageableEntityStates
+    {
+        Idle,
+        FindPath,
+        Attack,
+    }
 }

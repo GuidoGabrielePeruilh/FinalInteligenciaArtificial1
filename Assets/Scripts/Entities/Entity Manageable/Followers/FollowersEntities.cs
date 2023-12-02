@@ -16,6 +16,7 @@ namespace IA_I.EntityNS.Follower
 
         private void Update()
         {
+            if (_leaderToFollow == null) return;
 
             var separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
             var alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
