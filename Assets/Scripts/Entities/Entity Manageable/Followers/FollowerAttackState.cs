@@ -24,23 +24,19 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            throw new System.NotImplementedException();
         }
 
         public void OnExit()
         {
-            throw new System.NotImplementedException();
         }
 
         public void OnFixedUpdate()
         {
-            throw new System.NotImplementedException();
         }
 
         public void OnUpdate()
         {
-            Debug.Log("Follower Attack");
-            if (_entity.HasToMove)
+            if (_entity.HasToMoveInPath)
             {
                 /* PARA QUE EL ENTITY SE VAYA EN CASO DE TENER QUE ESCAPAR
                 if (_myEntity.HasLowLife)

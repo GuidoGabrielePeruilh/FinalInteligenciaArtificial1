@@ -32,7 +32,7 @@ namespace IA_I.FSM.StatesBehaviour
             if (_entity.HaveTargetToAttack())
                 _fsm.ChangeState(ManageableEntityStates.Attack);
 
-            if (_entity.HasToMove)
+            if (_entity.HasToMoveInPath)
                 _fsm.ChangeState(ManageableEntityStates.Move);
 
         }

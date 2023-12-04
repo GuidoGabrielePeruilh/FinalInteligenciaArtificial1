@@ -24,13 +24,14 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log("On Enter Followe Seek State");
+            Debug.Log("On Enter Follower Seek State");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
 
         public void OnExit()
         {
+            Debug.Log("On Exit Follower Seek State");
             _startingNode = null;
             _goalNode = null;
         }
@@ -41,11 +42,18 @@ namespace IA_I.StatesBehaviour
 
         public void OnUpdate()
         {
-
-            if (_entity.IsCloseFromLeader())
+            if (!_entity.HasToMoveInPath)
             {
-                _fsm.ChangeState(FollowersEntitiesStates.Move);
-                return;
+                if (_entity.IsCloseFromLeader())
+                {
+                    _fsm.ChangeState(FollowersEntitiesStates.Idle);
+                    return;
+                }
+                else
+                {
+                    _fsm.ChangeState(FollowersEntitiesStates.Move);
+                    return;
+                }
             }
             else
             {

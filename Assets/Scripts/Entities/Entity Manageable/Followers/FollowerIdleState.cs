@@ -22,7 +22,7 @@ namespace IA_I.StatesBehaviour
 
         public void OnExit()
         {
-
+            Debug.Log("On Exit follower Idle State");
         }
 
         public void OnFixedUpdate()
@@ -35,8 +35,10 @@ namespace IA_I.StatesBehaviour
             if (_entity.HaveTargetToAttack())
                 _fsm.ChangeState(FollowersEntitiesStates.Attack);
 
-            if (_entity.HasToMove)
+            if (_entity.HasToMoveInPath)
                 _fsm.ChangeState(FollowersEntitiesStates.Move);
+
+            _entity.FlockingMove(_entity.Arrive(_entity.LeaderToFollow.gameObject));
 
         }
     }

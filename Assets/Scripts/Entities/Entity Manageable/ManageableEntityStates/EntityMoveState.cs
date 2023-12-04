@@ -38,7 +38,7 @@ namespace IA_I.FSM.StatesBehaviour
         public void OnUpdate()
         {
 
-            if (!_entity.HasToMove)
+            if (!_entity.HasToMoveInPath)
             {
                 _fsm.ChangeState(ManageableEntityStates.Idle);
                 return;

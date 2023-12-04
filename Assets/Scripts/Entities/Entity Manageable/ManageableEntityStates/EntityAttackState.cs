@@ -43,7 +43,7 @@ namespace IA_I.FSM.StatesBehaviour
 
         public void OnUpdate()
         {
-            if (_myEntity.HasToMove)
+            if (_myEntity.HasToMoveInPath)
             {
                 /* PARA QUE EL ENTITY SE VAYA EN CASO DE TENER QUE ESCAPAR
                 if (_myEntity.HasLowLife)

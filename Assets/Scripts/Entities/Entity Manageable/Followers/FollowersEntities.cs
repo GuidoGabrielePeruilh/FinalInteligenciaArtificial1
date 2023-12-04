@@ -15,10 +15,12 @@ namespace IA_I.EntityNS.Follower
         public Vector3 SeparationForce => _separationForce;
         public Vector3 AlignmentForce => _alignmentForce;
         public Vector3 CohesionForce => _cohesionForce;
+        public Vector3 CombinedForce => _combinedForce;
 
         private Vector3 _separationForce;
         private Vector3 _alignmentForce;
         private Vector3 _cohesionForce;
+        private Vector3 _combinedForce;
 
         private void Awake()
         {
@@ -45,19 +47,18 @@ namespace IA_I.EntityNS.Follower
         private void Update()
         {
             if (_leaderToFollow == null) return;
-            _fsm.Update();
             UpdateTargetPosition(_leaderToFollow.TargetPosition);
             _separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
             _alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
             _cohesionForce = Cohesion() * FollowersManager.Instance.CohesionWeight;
+            _combinedForce = _separationForce + _alignmentForce + _cohesionForce;
+            _fsm.Update();
         }
 
         private void FixedUpdate()
         {
             _fsm.FixedUpdate();
         }
-
-
 
         public bool IsCloseFromLeader()
         {
@@ -68,14 +69,15 @@ namespace IA_I.EntityNS.Follower
         #region Movement
         public void FlockingMove(Vector3 dir)
         {
-            AddForce(dir, MyEntityData.speed);
+            BasicMove(dir);
         }
 
         protected override void BasicMove(Vector3 dir)
         {
-            var combinedForces = _separationForce + _alignmentForce + _cohesionForce;
-            AddForce(CalculateSteering(dir, MyEntityData.speed) + combinedForces, MyEntityData.speed);
+            AddForce(CalculateSteering(dir, MyEntityData.speed) + _combinedForce, MyEntityData.speed);
         }
+
+
         #endregion
 
         #region Steering Behaviors
@@ -111,6 +113,15 @@ namespace IA_I.EntityNS.Follower
         public Vector3 Separation()
         {
             Vector3 desired = Vector3.zero;
+
+            if (_leaderToFollow != null)
+            {
+                Vector3 dirToLeader = _leaderToFollow.transform.position - transform.position;
+                if (dirToLeader.sqrMagnitude <= FollowersManager.Instance.SeparationRadius)
+                {
+                    desired -= dirToLeader;
+                }
+            }
 
             foreach (FollowersEntities follower in FollowersManager.Instance.AllFollowers)
             {

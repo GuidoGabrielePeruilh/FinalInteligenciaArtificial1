@@ -19,7 +19,7 @@ namespace IA_I.EntityNS
         protected GameObject _attackTarget;
 
         public Vector3 TargetPosition { get; protected set; }
-        public bool HasToMove { get; protected set; }
+        public bool HasToMoveInPath { get; protected set; }
         public bool HasLowLife { get; protected set; }
         public float CurrentLife { get; protected set; }
 
@@ -84,8 +84,11 @@ namespace IA_I.EntityNS
 
         public void UpdateTargetPosition(Vector3 targetPosition)
         {
-            HasToMove = true;
-            TargetPosition = targetPosition;
+            if (TargetPosition != targetPosition)
+            {
+                HasToMoveInPath = true;
+                TargetPosition = targetPosition;
+            }
         }
 
         protected abstract void BasicMove(Vector3 dir);
@@ -94,7 +97,7 @@ namespace IA_I.EntityNS
         {
             if (pathToFollow.Count == 0)
             {
-                HasToMove = false;
+                HasToMoveInPath = false;
                 HasLowLife = false;
                 return;
             }
@@ -120,7 +123,7 @@ namespace IA_I.EntityNS
             if (CurrentLife <= MyEntityData.maxLife * MyEntityData.percentageOfLifeToRunAway)
             {
                 HasLowLife = true;
-                HasToMove = true;
+                HasToMoveInPath = true;
             }
             if (CurrentLife > 0) return;
             Destroy(gameObject);
