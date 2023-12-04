@@ -1,4 +1,5 @@
 using IA_I.EntityNS.Manegeable;
+using IA_I.StatesBehaviour;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,46 +8,79 @@ namespace IA_I.EntityNS.Follower
 {
     public class FollowersEntities : Entity
     {
+        FSM<FollowersEntitiesStates> _fsm;
+        public ManageableEntities LeaderToFollow => _leaderToFollow;
         [SerializeField] private ManageableEntities _leaderToFollow;
+
+        public Vector3 SeparationForce => _separationForce;
+        public Vector3 AlignmentForce => _alignmentForce;
+        public Vector3 CohesionForce => _cohesionForce;
+
+        private Vector3 _separationForce;
+        private Vector3 _alignmentForce;
+        private Vector3 _cohesionForce;
+
+        private void Awake()
+        {
+            base.Awake();
+            UpdateTargetPosition(transform.position);
+            _fsm = new FSM<FollowersEntitiesStates>();
+            IState move = new FollowerMoveState(_fsm, this, _leaderToFollow);
+            IState idle = new FollowerIdleState(_fsm, this);
+            IState attack = new FollowerAttackState(_fsm, this);
+            IState seek = new FollowerSeekState(_fsm, this, _leaderToFollow);
+
+            _fsm.AddState(FollowersEntitiesStates.Move, move);
+            _fsm.AddState(FollowersEntitiesStates.Idle, idle);
+            _fsm.AddState(FollowersEntitiesStates.Attack, attack);
+            _fsm.AddState(FollowersEntitiesStates.Seek, seek);
+        }
 
         private void Start()
         {
             FollowersManager.Instance.RegisterNewFollower(this, _leaderToFollow);
+            _fsm.ChangeState(FollowersEntitiesStates.Move);
         }
 
         private void Update()
         {
             if (_leaderToFollow == null) return;
-
-            var separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
-            var alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
-            var cohesionForce = Cohesion() * FollowersManager.Instance.CohesionWeight;
-
-            if (IsCloseFromLeader(_leaderToFollow.gameObject))
-            {
-                if (_leaderToFollow.Velocity.sqrMagnitude < 0.1f)
-                {
-                    AddForce(Separation() * FollowersManager.Instance.SeparationWeight, MyEntityData.speed);
-                }
-                else
-                {
-                    AddForce(Arrive(_leaderToFollow.gameObject) + separationForce, MyEntityData.speed);
-                }
-            }
-            else
-            {
-                var combinedForces = separationForce + alignmentForce + cohesionForce;
-                AddForce(Seek(_leaderToFollow.gameObject) + combinedForces, MyEntityData.speed);
-            }
+            _fsm.Update();
+            UpdateTargetPosition(_leaderToFollow.TargetPosition);
+            _separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
+            _alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
+            _cohesionForce = Cohesion() * FollowersManager.Instance.CohesionWeight;
         }
 
-        private bool IsCloseFromLeader(GameObject leader)
+        private void FixedUpdate()
         {
-            var distanceFromTarget = leader.transform.position - transform.position;
+            _fsm.FixedUpdate();
+        }
+
+
+
+        public bool IsCloseFromLeader()
+        {
+            var distanceFromTarget = _leaderToFollow.transform.position - transform.position;
             return distanceFromTarget.sqrMagnitude <= FollowersManager.Instance.ViewRadius;
         }
 
-        Vector3 Arrive(GameObject leader)
+        #region Movement
+        public void FlockingMove(Vector3 dir)
+        {
+            AddForce(dir, MyEntityData.speed);
+        }
+
+        protected override void BasicMove(Vector3 dir)
+        {
+            var combinedForces = _separationForce + _alignmentForce + _cohesionForce;
+            AddForce(CalculateSteering(dir, MyEntityData.speed) + combinedForces, MyEntityData.speed);
+        }
+        #endregion
+
+        #region Steering Behaviors
+
+        public Vector3 Arrive(GameObject leader)
         {
             var desired = Vector3.zero;
             var speed = MyEntityData.speed;
@@ -70,24 +104,11 @@ namespace IA_I.EntityNS.Follower
             return CalculateSteering(desired, speed);
         }
 
-        Vector3 Seek(GameObject target)
-        {
-            Vector3 desired = Vector3.zero;
+        #endregion
 
-            Vector3 dirToTarget = target.transform.position - transform.position;
-            desired += dirToTarget;
+        #region flocking
 
-            if (desired.sqrMagnitude <= FollowersManager.Instance.SeparationRadius)
-            {
-                _velocity = Vector3.zero;
-                desired = Vector3.zero;
-            }
-
-            if (desired == Vector3.zero) return desired;
-            return CalculateSteering(desired, MyEntityData.speed);
-        }
-
-        private Vector3 Separation()
+        public Vector3 Separation()
         {
             Vector3 desired = Vector3.zero;
 
@@ -161,6 +182,9 @@ namespace IA_I.EntityNS.Follower
             return CalculateSteering(desired, MyEntityData.speed);
         }
 
+        #endregion
+
+        #region gizmos
         private void OnDrawGizmos()
         {
 
@@ -175,6 +199,7 @@ namespace IA_I.EntityNS.Follower
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
         }
+        #endregion
     }
 }
 

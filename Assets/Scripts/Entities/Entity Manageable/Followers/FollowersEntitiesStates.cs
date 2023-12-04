@@ -3,8 +3,10 @@ namespace IA_I.EntityNS.Follower
     public enum FollowersEntitiesStates
     {
         Idle,
-        FindPath,
+        Move,
         Attack,
+        RunAway,
+        Seek,
     }
 
 }

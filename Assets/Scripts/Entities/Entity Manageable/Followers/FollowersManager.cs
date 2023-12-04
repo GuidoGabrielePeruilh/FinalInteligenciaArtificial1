@@ -11,45 +11,11 @@ namespace IA_I.EntityNS.Follower
 
         public List<FollowersEntities> AllFollowers { get; private set; }
 
-        public float ViewRadius
-        {
-            get
-            {
-                return _viewRadius * _viewRadius;
-            }
-        }
-
-        public float ArriveRadius
-        {
-            get
-            {
-                return _arriveRadius * _arriveRadius;
-            }
-        }
-
-        public float SeparationRadius
-        {
-            get
-            {
-                return _separationRadius * _separationRadius;
-            }
-        }
-
-        public float AlignmentRadius
-        {
-            get
-            {
-                return _alignmentRadius * _alignmentRadius;
-            }
-        }
-
-        public float CohesionRadius
-        {
-            get
-            {
-                return _cohesionRadius * _cohesionRadius;
-            }
-        }
+        public float ViewRadius => _viewRadius * _viewRadius;
+        public float ArriveRadius => _arriveRadius * _arriveRadius;
+        public float SeparationRadius => _separationRadius * _separationRadius;
+        public float AlignmentRadius => _alignmentRadius * _alignmentRadius;
+        public float CohesionRadius => _cohesionRadius * _cohesionRadius;
 
         [SerializeField] float _viewRadius;
         [SerializeField] float _arriveRadius;

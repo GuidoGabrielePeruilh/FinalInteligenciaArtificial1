@@ -51,7 +51,7 @@ namespace IA_I.FSM.StatesBehaviour
                     _myEntity.UpdateTargetPosition(_myEntity.GetRandomNodeToRun().transform.position);
                 }
                 */
-                _fsm.ChangeState(ManageableEntityStates.FindPath);
+                _fsm.ChangeState(ManageableEntityStates.Move);
                 return;
             }
 

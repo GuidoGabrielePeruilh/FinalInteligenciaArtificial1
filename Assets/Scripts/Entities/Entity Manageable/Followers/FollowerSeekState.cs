@@ -1,25 +1,30 @@
+using IA_I.EntityNS.Follower;
 using IA_I.EntityNS.Manegeable;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IA_I.FSM.StatesBehaviour
+namespace IA_I.StatesBehaviour
 {
-    public class EntityFindPathState : IState
+    public class FollowerSeekState : IState
     {
-        FSM<ManageableEntityStates> _fsm;
+        FSM<FollowersEntitiesStates> _fsm;
         Node _startingNode, _goalNode;
         Stack<Node> _pathToFollow;
         PathFinding _pathfinding;
         Vector3 _targetPosition;
-        ManageableEntities _entity;
+        FollowersEntities _entity;
+        ManageableEntities _leader;
 
-        public EntityFindPathState(FSM<ManageableEntityStates> fsm, ManageableEntities entity)
+        public FollowerSeekState(FSM<FollowersEntitiesStates> fsm, FollowersEntities entity, ManageableEntities leader)
         {
             _fsm = fsm;
             _entity = entity;
+            _leader = leader;
         }
+
         public void OnEnter()
         {
+            Debug.Log("On Enter Followe Seek State");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
@@ -32,22 +37,24 @@ namespace IA_I.FSM.StatesBehaviour
 
         public void OnFixedUpdate()
         {
-
         }
 
         public void OnUpdate()
         {
 
-            if (!_entity.HasToMove)
+            if (_entity.IsCloseFromLeader())
             {
-                _fsm.ChangeState(ManageableEntityStates.Idle);
+                _fsm.ChangeState(FollowersEntitiesStates.Move);
                 return;
             }
+            else
+            {
+                _entity.FollowPath(_pathToFollow);
+                if (_targetPosition == _entity.TargetPosition) return;
+                _targetPosition = _entity.TargetPosition;
+                UpdatePath();
+            }
 
-            _entity.FollowPath(_pathToFollow);
-            if (_targetPosition == _entity.TargetPosition) return;
-            _targetPosition = _entity.TargetPosition;
-            UpdatePath();
         }
 
         private void UpdatePath()
@@ -58,7 +65,5 @@ namespace IA_I.FSM.StatesBehaviour
             _pathfinding = new PathFinding();
             _pathToFollow = _pathfinding.AStar(_startingNode, _goalNode);
         }
-
     }
 }
-

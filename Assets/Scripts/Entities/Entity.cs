@@ -82,6 +82,14 @@ namespace IA_I.EntityNS
             return false;
         }
 
+        public void UpdateTargetPosition(Vector3 targetPosition)
+        {
+            HasToMove = true;
+            TargetPosition = targetPosition;
+        }
+
+        protected abstract void BasicMove(Vector3 dir);
+
         public void FollowPath(Stack<Node> pathToFollow)
         {
             if (pathToFollow.Count == 0)
@@ -95,7 +103,9 @@ namespace IA_I.EntityNS
             Vector3 dir = nextPos - transform.position;
             dir.y = 0;
 
-            AddForce(CalculateSteering(dir, MyEntityData.speed), MyEntityData.speed);
+            BasicMove(dir);
+
+            //AddForce(CalculateSteering(dir, MyEntityData.speed), MyEntityData.speed);
 
 
             if (dir.sqrMagnitude < MyEntityData.distanceToLowSpeed * MyEntityData.distanceToLowSpeed)

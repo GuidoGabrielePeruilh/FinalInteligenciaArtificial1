@@ -19,10 +19,10 @@ namespace IA_I.EntityNS.Manegeable
             HasLowLife = false;
             _fsm = new FSM<ManageableEntityStates>();
 
-            IState findPath = new EntityFindPathState(_fsm, this);
+            IState move = new EntityMoveState(_fsm, this);
             IState attack = new EntityAttackState(_fsm, this, myAnimator, "Attack", MyEntityData.attackCooldown);
             IState idle = new EntityIdleState(_fsm, this);
-            _fsm.AddState(ManageableEntityStates.FindPath, findPath);
+            _fsm.AddState(ManageableEntityStates.Move, move);
             _fsm.AddState(ManageableEntityStates.Attack, attack);
             _fsm.AddState(ManageableEntityStates.Idle, idle);
 
@@ -30,7 +30,7 @@ namespace IA_I.EntityNS.Manegeable
 
         private void Start()
         {
-            _fsm.ChangeState(ManageableEntityStates.FindPath);
+            _fsm.ChangeState(ManageableEntityStates.Move);
         }
 
         private void Update()
@@ -42,12 +42,6 @@ namespace IA_I.EntityNS.Manegeable
         private void FixedUpdate()
         {
             _fsm.FixedUpdate();
-        }
-
-        public Vector3 UpdateTargetPosition(Vector3 targetPosition)
-        {
-            HasToMove = true;
-            return TargetPosition = targetPosition;
         }
 
         public void AddFollower(FollowersEntities follower)
@@ -67,6 +61,11 @@ namespace IA_I.EntityNS.Manegeable
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, MyEntityData.attackRadius);
+        }
+
+        protected override void BasicMove(Vector3 dir)
+        {
+            AddForce(CalculateSteering(dir, MyEntityData.speed), MyEntityData.speed);
         }
     }
 }
