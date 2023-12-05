@@ -26,6 +26,10 @@ namespace IA_I.EntityNS
         protected void Awake()
         {
             gameObject.tag = _team.ToString();
+            foreach (Transform child in transform)
+            {
+                child.gameObject.tag = _team.ToString();
+            }
         }
 
         protected virtual void AddForce(Vector3 force, float speed)
@@ -76,6 +80,7 @@ namespace IA_I.EntityNS
             if (myTarget != null)
             {
                 _attackTarget = myTarget.gameObject;
+                HasToMoveInPath = false;
                 return true;
             }
             _attackTarget = null;

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <speed>k__BackingField: 6
   <maxLife>k__BackingField: 500
-  <distanceToLowSpeed>k__BackingField: 3
+  <distanceToLowSpeed>k__BackingField: 5
   <percentageOfLifeToRunAway>k__BackingField: 0.1
   <maxForce>k__BackingField: 0.1
   <attackCooldown>k__BackingField: 1
-  <attackRadius>k__BackingField: 1
+  <attackRadius>k__BackingField: 5

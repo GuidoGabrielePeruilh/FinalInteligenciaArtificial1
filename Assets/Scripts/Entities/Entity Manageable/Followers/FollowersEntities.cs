@@ -1,7 +1,6 @@
 using IA_I.EntityNS.Manegeable;
 using IA_I.StatesBehaviour;
-using System.Collections;
-using System.Collections.Generic;
+using IA_I.Weapons.Guns;
 using UnityEngine;
 
 namespace IA_I.EntityNS.Follower
@@ -11,6 +10,7 @@ namespace IA_I.EntityNS.Follower
         FSM<FollowersEntitiesStates> _fsm;
         public ManageableEntities LeaderToFollow => _leaderToFollow;
         [SerializeField] private ManageableEntities _leaderToFollow;
+        [SerializeField] private Gun _myGun;
 
         public Vector3 SeparationForce => _separationForce;
         public Vector3 AlignmentForce => _alignmentForce;
@@ -25,11 +25,12 @@ namespace IA_I.EntityNS.Follower
         private void Awake()
         {
             base.Awake();
+            _myGun = GetComponentInChildren<Gun>();
             UpdateTargetPosition(transform.position);
             _fsm = new FSM<FollowersEntitiesStates>();
             IState move = new FollowerMoveState(_fsm, this, _leaderToFollow);
             IState idle = new FollowerIdleState(_fsm, this);
-            IState attack = new FollowerAttackState(_fsm, this);
+            IState attack = new FollowerAttackState(_fsm, this, _myGun);
             IState seek = new FollowerSeekState(_fsm, this, _leaderToFollow);
 
             _fsm.AddState(FollowersEntitiesStates.Move, move);

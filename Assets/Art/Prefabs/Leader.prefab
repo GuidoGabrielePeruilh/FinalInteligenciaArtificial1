@@ -328,6 +328,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 0
   myAnimator: {fileID: 8097116310414977293}
+  _myFollowers: []
 --- !u!114 &3734105587268934190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14a91b308e977c4095c291b467081f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _swordData: {fileID: 11400000, guid: 4c3798953439acf409371755361ac2ab, type: 2}
+  _swordData: {fileID: 11400000, guid: 70a0371438057dd4888ee3f2ff3036de, type: 2}
 --- !u!54 &1033017975582471317
 Rigidbody:
   m_ObjectHideFlags: 0

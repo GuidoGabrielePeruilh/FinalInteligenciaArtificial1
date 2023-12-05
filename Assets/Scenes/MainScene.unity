@@ -174,6 +174,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 1
   _leaderToFollow: {fileID: 2116197814}
+  _myGun: {fileID: 0}
 --- !u!1 &37194951
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +419,7 @@ GameObject:
   - component: {fileID: 169981774}
   - component: {fileID: 169981773}
   - component: {fileID: 169981772}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &385471187
 Transform:
   m_ObjectHideFlags: 0
@@ -1038,6 +1039,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
+  _myGun: {fileID: 0}
 --- !u!1 &544155075 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4587254599990881238, guid: 2e4f3339e026f0949a7cee6282014df0, type: 3}
@@ -1094,6 +1096,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 1
   _leaderToFollow: {fileID: 2116197814}
+  _myGun: {fileID: 0}
 --- !u!1 &658506093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,7 +1113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &658506094
 Transform:
   m_ObjectHideFlags: 0
@@ -1145,6 +1148,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
+  _myGun: {fileID: 0}
 --- !u!1 &680953988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,6 +1782,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 1
   _leaderToFollow: {fileID: 2116197814}
+  _myGun: {fileID: 0}
 --- !u!1 &897655132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,6 +1834,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 1
   _leaderToFollow: {fileID: 2116197814}
+  _myGun: {fileID: 0}
 --- !u!1 &915607774
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2029,10 @@ PrefabInstance:
     - target: {fileID: 442897709130317194, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1033017975582471317, guid: 64bf915712606e241822a3ac05389151, type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 6841337592647956792, guid: 64bf915712606e241822a3ac05389151, type: 3}
       propertyPath: m_FillAmount
@@ -2609,7 +2619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1261823798
 Transform:
   m_ObjectHideFlags: 0
@@ -2644,6 +2654,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
+  _myGun: {fileID: 0}
 --- !u!1 &1267895271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2653,7 +2664,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1267895272}
-  m_Layer: 8
+  - component: {fileID: 1267895273}
+  m_Layer: 9
   m_Name: Arc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2676,9 +2688,25 @@ Transform:
   - {fileID: 169981771}
   - {fileID: 1973383282}
   - {fileID: 1314632696636606444}
+  - {fileID: 1806639150}
   m_Father: {fileID: 806049147}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1267895273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267895271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463e029fe090e5442b89b7616bd0fa7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectPool: {fileID: 836856717}
+  _shootPosition: {fileID: 1806639150}
+  _gunData: {fileID: 11400000, guid: 4d959a946f832dc40bd8d5ceec83dfd8, type: 2}
 --- !u!1 &1289298618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,6 +2841,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 1
   _leaderToFollow: {fileID: 2116197814}
+  _myGun: {fileID: 0}
 --- !u!1 &1535019990
 GameObject:
   m_ObjectHideFlags: 0
@@ -2963,6 +2992,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
+  _myGun: {fileID: 0}
 --- !u!1 &1580707569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,7 +3009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1580707570
 Transform:
   m_ObjectHideFlags: 0
@@ -3014,6 +3044,7 @@ MonoBehaviour:
     m_Bits: 256
   _team: 0
   _leaderToFollow: {fileID: 238164447}
+  _myGun: {fileID: 0}
 --- !u!1 &1600529574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3348,6 +3379,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795100401}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1806639149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1806639150}
+  m_Layer: 9
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1806639150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806639149}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.49, y: 0.185, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1267895272}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1822039914
 GameObject:
   m_ObjectHideFlags: 0
@@ -3909,7 +3971,7 @@ GameObject:
   - component: {fileID: 1973383285}
   - component: {fileID: 1973383284}
   - component: {fileID: 1973383283}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4006,7 +4068,7 @@ GameObject:
   - component: {fileID: 1988043955}
   - component: {fileID: 1988043954}
   - component: {fileID: 1988043953}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4230,7 +4292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6429695801749092941, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.50200176
+      value: 0.502
       objectReference: {fileID: 0}
     - target: {fileID: 6429695801749092941, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4238,7 +4300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6429695801749092941, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6960032
+      value: 0.783
       objectReference: {fileID: 0}
     - target: {fileID: 6429695801749092941, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4271,6 +4333,14 @@ PrefabInstance:
     - target: {fileID: 7257224317284684553, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
       propertyPath: m_Name
       value: Arrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257224317284684553, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257224317284684553, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a608b38b76cee84e9ada45124d280af, type: 3}

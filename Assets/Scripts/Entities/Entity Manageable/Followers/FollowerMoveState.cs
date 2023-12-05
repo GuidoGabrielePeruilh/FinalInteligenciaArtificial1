@@ -35,6 +35,12 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
+            if (_entity.HaveTargetToAttack())
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.Attack);
+                return;
+            }
+
             if (!_entity.HasToMoveInPath)
             {
                 if (_entity.IsCloseFromLeader())
