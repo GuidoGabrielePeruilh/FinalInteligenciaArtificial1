@@ -195,20 +195,23 @@ namespace IA_I.EntityNS.Follower
 
         #endregion
 
+        
         #region gizmos
         private void OnDrawGizmos()
         {
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
-
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
+            if (Application.isPlaying)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
 
 
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
+
+
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
+            }
         }
         #endregion
     }
