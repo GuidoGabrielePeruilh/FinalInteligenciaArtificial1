@@ -27,8 +27,8 @@ public class FSM<T>
         _currentState.OnUpdate();
     }
 
-    public void FixedUpdate()
+    public void LateUpdate()
     {
-        _currentState.OnFixedUpdate();
+        _currentState.OnLateUpdate();
     }
 }

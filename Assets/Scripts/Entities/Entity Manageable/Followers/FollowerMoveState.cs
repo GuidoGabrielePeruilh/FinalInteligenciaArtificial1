@@ -20,20 +20,25 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log("On Enter Follower Move State");
         }
 
         public void OnExit()
         {
-            Debug.Log("On Exit Follower Move State");
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
+            _entity.FOV();
         }
 
         public void OnUpdate()
         {
+
+            if (_entity.HasToRunAway)
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.RunAway);
+                return;
+            }
 
             if (_entity.HaveTargetToAttack())
             {
@@ -44,32 +49,25 @@ namespace IA_I.StatesBehaviour
             if (!_entity.HasToMoveInPath)
             {
                 if (_entity.IsCloseFromLeader())
-                {
                     _fsm.ChangeState(FollowersEntitiesStates.Idle);
-                    return;
-                }
                 else
                 {
                     Vector3 dir;
 
                     if (_leaderToFollow.Velocity.sqrMagnitude < 0.1f)
-                    {
                         dir = _entity.Separation() * FollowersManager.Instance.SeparationWeight;
-                    }
                     else
-                    {
                         dir = _entity.Arrive(_leaderToFollow.gameObject);
-                    }
+
 
                     _entity.FlockingMove(dir);
-                    return;
                 }
-            }
-            else
-            {
-                _fsm.ChangeState(FollowersEntitiesStates.Seek);
+
                 return;
             }
+
+            _fsm.ChangeState(FollowersEntitiesStates.Seek);
+
         }
 
     }

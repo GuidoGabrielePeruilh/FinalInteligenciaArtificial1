@@ -15,8 +15,6 @@ namespace IA_I.EntityNS.Manegeable
         {
             base.Awake();
             UpdateTargetPosition(transform.position);
-            CurrentLife = MyEntityData.maxLife;
-            HasLowLife = false;
             _fsm = new FSM<ManageableEntityStates>();
 
             IState move = new EntityMoveState(_fsm, this);
@@ -39,9 +37,14 @@ namespace IA_I.EntityNS.Manegeable
 
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
-            _fsm.FixedUpdate();
+            _fsm.LateUpdate();
+        }
+
+        protected override void BasicMove(Vector3 dir)
+        {
+            AddForce(CalculateSteering(dir, MyEntityData.speed), MyEntityData.speed);
         }
 
         public void AddFollower(FollowersEntities follower)
@@ -58,14 +61,9 @@ namespace IA_I.EntityNS.Manegeable
 
         private void OnDrawGizmos()
         {
-
+            base.OnDrawGizmos();
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, MyEntityData.attackRadius);
-        }
-
-        protected override void BasicMove(Vector3 dir)
-        {
-            AddForce(CalculateSteering(dir, MyEntityData.speed), MyEntityData.speed);
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Linq;
 public class NodesManager : MonoBehaviour
 {
     public static NodesManager Instance { get; private set; }
-    [SerializeField] public LayerMask BlockedNodeLayer { get; private set; }
-    [SerializeField] private LayerMask collisionLayer;
+    public LayerMask BlockedNodeLayer => _blockedNodeLayer;
+    [SerializeField] private LayerMask _blockedNodeLayer;
     //[SerializeField] private float _radiusToFindNode = 0.5f;
     [SerializeReference] private List<Node> _validNodes;
     [SerializeReference] private List<Node> _invalidNodes;
@@ -33,6 +33,7 @@ public class NodesManager : MonoBehaviour
     {
         _invalidNodes.Add(node);
     }
+
     public void RemoveBlockedNode(Node node)
     {
         if (!_invalidNodes.Contains(node)) return;

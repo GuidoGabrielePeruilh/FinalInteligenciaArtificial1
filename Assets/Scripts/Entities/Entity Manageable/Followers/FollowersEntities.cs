@@ -10,7 +10,6 @@ namespace IA_I.EntityNS.Follower
         FSM<FollowersEntitiesStates> _fsm;
         public ManageableEntities LeaderToFollow => _leaderToFollow;
         [SerializeField] private ManageableEntities _leaderToFollow;
-        [SerializeField] private Gun _myGun;
 
         public Vector3 SeparationForce => _separationForce;
         public Vector3 AlignmentForce => _alignmentForce;
@@ -31,12 +30,14 @@ namespace IA_I.EntityNS.Follower
             IState move = new FollowerMoveState(_fsm, this, _leaderToFollow);
             IState idle = new FollowerIdleState(_fsm, this);
             IState attack = new FollowerAttackState(_fsm, this, _myGun);
-            IState seek = new FollowerSeekState(_fsm, this, _leaderToFollow);
+            IState seek = new FollowerSeekState(_fsm, this);
+            IState runAway = new FollowerRunAwayState(_fsm, this);
 
             _fsm.AddState(FollowersEntitiesStates.Move, move);
             _fsm.AddState(FollowersEntitiesStates.Idle, idle);
             _fsm.AddState(FollowersEntitiesStates.Attack, attack);
             _fsm.AddState(FollowersEntitiesStates.Seek, seek);
+            _fsm.AddState(FollowersEntitiesStates.RunAway, runAway);
         }
 
         private void Start()
@@ -56,9 +57,9 @@ namespace IA_I.EntityNS.Follower
             _fsm.Update();
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
-            _fsm.FixedUpdate();
+            _fsm.LateUpdate();
         }
 
         public bool IsCloseFromLeader()
@@ -195,23 +196,24 @@ namespace IA_I.EntityNS.Follower
         }
 
         #endregion
-
-        
+     
         #region gizmos
         private void OnDrawGizmos()
         {
             if (Application.isPlaying)
             {
+                base.OnDrawGizmos();
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
+                //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
 
 
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
+                //Gizmos.color = Color.yellow;
+                //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
 
 
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
+                //Gizmos.color = Color.blue;
+                //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
+           
             }
         }
         #endregion

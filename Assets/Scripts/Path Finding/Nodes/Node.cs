@@ -22,7 +22,12 @@ public class Node : MonoBehaviour
         if (colliders.Length > 0)
         {
             SetBlocked(true);
+            cost = 100;
             NodesManager.Instance.SuscribeBlockedNode(this);
+            foreach (Node node in GetNeighbors())
+            {
+                node.cost *= 2;
+            }
         }
         else
         {

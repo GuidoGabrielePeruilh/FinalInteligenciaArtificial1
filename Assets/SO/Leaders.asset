@@ -18,4 +18,11 @@ MonoBehaviour:
   <percentageOfLifeToRunAway>k__BackingField: 0.3
   <maxForce>k__BackingField: 0.1
   <attackCooldown>k__BackingField: 1
-  <attackRadius>k__BackingField: 1.3
+  <attackRadius>k__BackingField: 1.5
+  <viewAngle>k__BackingField: 240
+  <obstacleLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 8
+  <targetLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256

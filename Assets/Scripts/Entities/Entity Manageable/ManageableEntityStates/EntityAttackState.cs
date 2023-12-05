@@ -12,7 +12,7 @@ namespace IA_I.FSM.StatesBehaviour
         string _attackAnimationName;
         float _attackCooldown;
         float _timer;
-        GameObject _target;
+        Transform _target;
 
 
         public EntityAttackState(FSM<ManageableEntityStates> fsm, ManageableEntities myEntity, Animator myAnimator, string attackAnimationName, float attackCooldown)
@@ -36,31 +36,31 @@ namespace IA_I.FSM.StatesBehaviour
             _timer = 0;
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
-
+            _myEntity.FOV();
         }
 
         public void OnUpdate()
         {
-            if (_myEntity.HasToMoveInPath)
-            {
-                /* PARA QUE EL ENTITY SE VAYA EN CASO DE TENER QUE ESCAPAR
-                if (_myEntity.HasLowLife)
-                {
-                    _myEntity.UpdateTargetPosition(_myEntity.GetRandomNodeToRun().transform.position);
-                }
-                */
-                _fsm.ChangeState(ManageableEntityStates.Move);
-                return;
-            }
 
-            if (!_myEntity.HaveTargetToAttack())
+            if (_target == null || !_myEntity.HaveTargetToAttack())
             {
                 _fsm.ChangeState(ManageableEntityStates.Idle);
                 return;
             }
 
+            Attack();
+
+            if (_myEntity.HasToMoveInPath)
+            {
+                _fsm.ChangeState(ManageableEntityStates.Move);
+                return;
+            }
+        }
+
+        private void Attack()
+        {
             _timer += Time.deltaTime;
 
             Vector3 lookDirection = (_target.transform.position - _myEntity.transform.position).normalized;
@@ -71,7 +71,6 @@ namespace IA_I.FSM.StatesBehaviour
                 _myAnimator.SetTrigger(_attackAnimationName);
                 _timer = 0;
             }
-
         }
     }
 }

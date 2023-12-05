@@ -22,9 +22,9 @@ namespace IA_I.FSM.StatesBehaviour
 
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
-
+            _entity.FOV();
         }
 
         public void OnUpdate()

@@ -30,9 +30,9 @@ namespace IA_I.FSM.StatesBehaviour
             _goalNode = null;
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
-
+            _entity.FOV();
         }
 
         public void OnUpdate()
@@ -56,7 +56,7 @@ namespace IA_I.FSM.StatesBehaviour
             _goalNode = NodesManager.Instance.SetNode(_targetPosition);
             _pathToFollow = new Stack<Node>();
             _pathfinding = new PathFinding();
-            _pathToFollow = _pathfinding.AStar(_startingNode, _goalNode);
+            _pathToFollow = _pathfinding.ThetaStar(_startingNode, _goalNode);
         }
 
     }

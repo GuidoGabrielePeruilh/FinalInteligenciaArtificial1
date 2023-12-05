@@ -17,26 +17,36 @@ namespace IA_I.StatesBehaviour
         }
         public void OnEnter()
         {
-            Debug.Log("On Enter Followe IdleState");
         }
 
         public void OnExit()
         {
-            Debug.Log("On Exit follower Idle State");
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
-
+            _entity.FOV();
         }
 
         public void OnUpdate()
         {
+            if (_entity.HasToRunAway)
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.RunAway);
+                return;
+            }
+
             if (_entity.HaveTargetToAttack())
+            {
                 _fsm.ChangeState(FollowersEntitiesStates.Attack);
+                return;
+            }
 
             if (_entity.HasToMoveInPath)
+            {
                 _fsm.ChangeState(FollowersEntitiesStates.Move);
+                return;
+            }
 
             _entity.FlockingMove(_entity.Arrive(_entity.LeaderToFollow.gameObject));
 

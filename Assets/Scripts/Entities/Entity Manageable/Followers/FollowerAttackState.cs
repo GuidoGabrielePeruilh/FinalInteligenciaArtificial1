@@ -13,7 +13,7 @@ namespace IA_I.StatesBehaviour
         FollowersEntities _entity;
         Gun _myGun;
         float _timer;
-        GameObject _target;
+        Transform _target;
 
         public FollowerAttackState(FSM<FollowersEntitiesStates> fsm, FollowersEntities entity, Gun gun)
         {
@@ -24,7 +24,6 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log("On Enter Follower Attack State");
             _timer = _myGun.GunData.rateOfFire;
             _target = _entity.AttackTarget;
         }
@@ -33,33 +32,36 @@ namespace IA_I.StatesBehaviour
         {
             _timer = 0;
             _target = null;
-            Debug.Log("On Exit Follower Attack State");
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
+            _entity.FOV();
         }
 
         public void OnUpdate()
         {
-            Attack();
-            if (_entity.HasToMoveInPath)
+
+            if (_entity.HasToRunAway)
             {
-                /* PARA QUE EL ENTITY SE VAYA EN CASO DE TENER QUE ESCAPAR
-                if (_myEntity.HasLowLife)
-                {
-                    _myEntity.UpdateTargetPosition(_myEntity.GetRandomNodeToRun().transform.position);
-                }
-                */
-                _fsm.ChangeState(FollowersEntitiesStates.Move);
+                _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;
             }
 
-            if (!_entity.HaveTargetToAttack())
+            if (_target == null || !_entity.HaveTargetToAttack())
             {
                 _fsm.ChangeState(FollowersEntitiesStates.Idle);
                 return;
             }
+
+            if (_entity.HasToMoveInPath)
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.Move);
+                return;
+            }
+
+            Attack();
+
         }
 
         private void Attack()

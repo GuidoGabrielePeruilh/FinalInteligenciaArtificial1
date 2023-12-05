@@ -119,4 +119,5 @@ MonoBehaviour:
     m_Bits: 0
   _blockedNodeLayerNumber: 6
   _noBlockedNodeLayerNumber: 7
-  _rangeToDetectWalls: 1.5
+  _rangeToDetectWalls: 1
+  _neighbors: []
