@@ -11,6 +11,8 @@ namespace IA_I.EntityNS.Follower
         public ManageableEntities LeaderToFollow => _leaderToFollow;
         [SerializeField] private ManageableEntities _leaderToFollow;
 
+        public bool HasToSeekLeader { get; protected set; }
+
         public Vector3 SeparationForce => _separationForce;
         public Vector3 AlignmentForce => _alignmentForce;
         public Vector3 CohesionForce => _cohesionForce;

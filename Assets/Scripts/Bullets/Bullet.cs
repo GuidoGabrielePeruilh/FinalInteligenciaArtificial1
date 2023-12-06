@@ -1,5 +1,7 @@
 using IA_I.Damageables;
 using IA_I.EntityNS;
+using IA_I.EntityNS.Follower;
+using IA_I.EntityNS.Manegeable;
 using IA_I.Weapons;
 using UnityEngine;
 
@@ -13,6 +15,7 @@ namespace IA_I.Bullets
         private Rigidbody _myRB;
         private Vector3 _direction;
         private float _timer = 0f;
+        private FollowersEntities _owner;
 
         private void Awake()
         {
@@ -35,11 +38,12 @@ namespace IA_I.Bullets
             _myRB.MovePosition(transform.position + _direction.normalized * (_bulletData.speed * Time.fixedDeltaTime));
         }
 
-        public void Shoot(Vector3 dir, Vector3 initialPosition)
+        public void Shoot(Vector3 dir, Vector3 initialPosition, FollowersEntities owner)
         {
             _direction = dir - initialPosition;
             transform.position = initialPosition;
             transform.rotation = Quaternion.LookRotation(_direction);
+            _owner = owner;
         }
 
         private void DestroyBullet()
@@ -52,10 +56,9 @@ namespace IA_I.Bullets
 
         private void OnTriggerEnter(Collider collider)
         {
-            Debug.Log($"On Triggert Enter Bullet {collider.gameObject.name}");
             var other = collider.GetComponentInParent<Entity>();
 
-            if (other == null) return;
+            if (other == null || other == _owner.LeaderToFollow || other == _owner) return;
             DestroyBullet();
 
             other.gameObject.GetComponent<IDamageable>()?.TakeDamage(_bulletData.damage);

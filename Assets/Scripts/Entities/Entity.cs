@@ -19,8 +19,9 @@ namespace IA_I.EntityNS
         protected Vector3 _velocity;    
 
         public Vector3 TargetPosition { get; protected set; }
-        public bool HasToMoveInPath { get; protected set; }
-        public bool HasToRunAway { get; protected set; }
+        public bool HasToMove { get; protected set; }
+        public bool HasArriveToDestiny { get; protected set; }
+        public bool HasLowLife { get; protected set; }
         public float CurrentLife { get; protected set; }
         public Transform AttackTarget { get; protected set; }
 
@@ -32,7 +33,7 @@ namespace IA_I.EntityNS
                 child.gameObject.tag = _team.ToString();
             }
             CurrentLife = MyEntityData.maxLife;
-            HasToRunAway = false;
+            HasLowLife = false;
         }
 
         protected virtual void AddForce(Vector3 force, float speed)
@@ -96,19 +97,21 @@ namespace IA_I.EntityNS
         {
             if (TargetPosition != targetPosition)
             {
-                HasToMoveInPath = true;
+                HasToMove = true;
                 TargetPosition = targetPosition;
             }
+            else
+                HasToMove = false;
         }
 
         protected abstract void BasicMove(Vector3 dir);
 
         public void FollowPath(Stack<Node> pathToFollow)
         {
+            HasArriveToDestiny = false;
             if (pathToFollow.Count == 0)
             {
-                HasToMoveInPath = false;
-                HasToRunAway = false;
+                HasArriveToDestiny = true;
                 return;
             }
 
@@ -129,8 +132,7 @@ namespace IA_I.EntityNS
             CurrentLife -= dmg;
             if (CurrentLife <= MyEntityData.maxLife * MyEntityData.percentageOfLifeToRunAway)
             {
-                HasToMoveInPath = true;
-                HasToRunAway = true;
+                HasLowLife = true;
             }
             if (CurrentLife > 0) return;
             Destroy(gameObject);

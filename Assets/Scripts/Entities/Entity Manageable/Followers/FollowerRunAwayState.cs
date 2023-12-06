@@ -31,31 +31,19 @@ namespace IA_I.StatesBehaviour
         {
             _startingNode = null;
             _goalNode = null;
-            Debug.Log($"Exit Run Away\nRun Away {_entity.HasToRunAway}" +
-                $"\nMove {_entity.HasToMoveInPath}\n" +
-                $"Attack {_entity.HaveTargetToAttack()}");
-            
-
         }
 
         public void OnLateUpdate()
         {
-            _entity.FOV();
         }
 
         public void OnUpdate()
         {
-            if (!_entity.HasToRunAway)
-            {
-                if (_entity.HaveTargetToAttack())
-                    _fsm.ChangeState(FollowersEntitiesStates.Attack);
-                else if (_entity.HasToMoveInPath)
-                    _fsm.ChangeState(FollowersEntitiesStates.Seek);
-
-                return;
-            }
-
             _entity.FollowPath(_pathToFollow);
+
+            if (_entity.HasArriveToDestiny)
+                _fsm.ChangeState(FollowersEntitiesStates.Idle);
+
         }
 
         private void UpdatePath()

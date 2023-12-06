@@ -17,6 +17,8 @@ namespace IA_I.StatesBehaviour
         }
         public void OnEnter()
         {
+            Debug.Log("Enter Idle");
+
         }
 
         public void OnExit()
@@ -30,25 +32,22 @@ namespace IA_I.StatesBehaviour
 
         public void OnUpdate()
         {
-            if (_entity.HasToRunAway)
-            {
-                _fsm.ChangeState(FollowersEntitiesStates.RunAway);
-                return;
-            }
-
             if (_entity.HaveTargetToAttack())
             {
                 _fsm.ChangeState(FollowersEntitiesStates.Attack);
                 return;
             }
 
-            if (_entity.HasToMoveInPath)
+            if (!_entity.IsCloseFromLeader() && !_entity.HasLowLife)
             {
-                _fsm.ChangeState(FollowersEntitiesStates.Move);
+                _fsm.ChangeState(FollowersEntitiesStates.Seek);
                 return;
             }
 
-            _entity.FlockingMove(_entity.Arrive(_entity.LeaderToFollow.gameObject));
+            if (_entity.IsCloseFromLeader())
+            {
+                _entity.FlockingMove(_entity.Arrive(_entity.LeaderToFollow.gameObject));
+            }
 
         }
     }

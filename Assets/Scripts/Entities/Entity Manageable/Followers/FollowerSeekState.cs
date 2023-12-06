@@ -22,6 +22,7 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
+            Debug.Log("Enter Seek");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
@@ -40,19 +41,15 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
-            if (_entity.HasToRunAway)
+            if (_entity.HasLowLife)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;
             }
 
-            if (_entity.HaveTargetToAttack())
-            {
-                _fsm.ChangeState(FollowersEntitiesStates.Attack);
-                return;
-            }
+            _entity.FollowPath(_pathToFollow);
 
-            if (!_entity.HasToMoveInPath)
+            if (_entity.HasArriveToDestiny)
             {
                 if (_entity.IsCloseFromLeader())
                     _fsm.ChangeState(FollowersEntitiesStates.Idle);
@@ -62,12 +59,9 @@ namespace IA_I.StatesBehaviour
                 return;
             }
 
-            _entity.FollowPath(_pathToFollow);
             if (_targetPosition == _entity.TargetPosition) return;
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
-
-
         }
 
         private void UpdatePath()

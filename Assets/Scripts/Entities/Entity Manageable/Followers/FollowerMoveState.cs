@@ -20,6 +20,8 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
+            Debug.Log("Enter Move");
+
         }
 
         public void OnExit()
@@ -34,7 +36,7 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
-            if (_entity.HasToRunAway)
+            if (_entity.HasLowLife)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;
@@ -46,28 +48,29 @@ namespace IA_I.StatesBehaviour
                 return;
             }
 
-            if (!_entity.HasToMoveInPath)
+            if (_entity.HasToMove)
             {
-                if (_entity.IsCloseFromLeader())
-                    _fsm.ChangeState(FollowersEntitiesStates.Idle);
-                else
-                {
-                    Vector3 dir;
-
-                    if (_leaderToFollow.Velocity.sqrMagnitude < 0.1f)
-                        dir = _entity.Separation() * FollowersManager.Instance.SeparationWeight;
-                    else
-                        dir = _entity.Arrive(_leaderToFollow.gameObject);
-
-
-                    _entity.FlockingMove(dir);
-                }
-
+                _fsm.ChangeState(FollowersEntitiesStates.Seek);
                 return;
             }
 
-            _fsm.ChangeState(FollowersEntitiesStates.Seek);
 
+            if (_entity.IsCloseFromLeader())
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.Idle);
+                return;
+            }
+
+
+            Vector3 dir;
+
+            if (_leaderToFollow.Velocity.sqrMagnitude < 0.1f)
+                dir = _entity.Separation() * FollowersManager.Instance.SeparationWeight;
+            else
+                dir = _entity.Arrive(_leaderToFollow.gameObject);
+
+
+            _entity.FlockingMove(dir);
         }
 
     }

@@ -52,7 +52,7 @@ namespace IA_I.FSM.StatesBehaviour
 
             Attack();
 
-            if (_myEntity.HasToMoveInPath)
+            if (_myEntity.HasToMove)
             {
                 _fsm.ChangeState(ManageableEntityStates.Move);
                 return;

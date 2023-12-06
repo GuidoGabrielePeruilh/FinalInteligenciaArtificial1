@@ -44,9 +44,21 @@ namespace IA_I.StatesBehaviour
         {
 
 
-            if (_entity.HasToRunAway)
+            if (_entity.HasLowLife)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
+                return;
+            }
+
+            if (!_entity.HaveTargetToAttack())
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.Idle);
+                return;
+            }
+
+            if (_entity.HasToMove)
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.Seek);
                 return;
             }
 
@@ -54,15 +66,6 @@ namespace IA_I.StatesBehaviour
             {
                 Attack();
             }
-
-
-            if (_entity.HasToMoveInPath)
-            {
-                _fsm.ChangeState(FollowersEntitiesStates.Seek);
-                return;
-            }
-
-
         }
 
         private void Attack()
@@ -74,7 +77,7 @@ namespace IA_I.StatesBehaviour
 
             if (_timer >= _myGun.GunData.rateOfFire)
             {
-                _myGun.Attack(_target.transform.position);
+                _myGun.Attack(_target.transform.position, _entity);
                 _timer = 0;
             }
         }
