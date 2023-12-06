@@ -16,9 +16,9 @@ MonoBehaviour:
   <maxLife>k__BackingField: 500
   <distanceToLowSpeed>k__BackingField: 1.5
   <percentageOfLifeToRunAway>k__BackingField: 0.3
-  <maxForce>k__BackingField: 0.1
+  <maxForce>k__BackingField: 0.2
   <attackCooldown>k__BackingField: 1
-  <attackRadius>k__BackingField: 1.5
+  <attackRadius>k__BackingField: 1.25
   <viewAngle>k__BackingField: 240
   <obstacleLayerMask>k__BackingField:
     serializedVersion: 2

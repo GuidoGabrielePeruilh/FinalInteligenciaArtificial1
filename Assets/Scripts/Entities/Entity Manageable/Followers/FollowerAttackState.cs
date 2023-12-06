@@ -24,6 +24,7 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
+            Debug.Log("Enter Attack");
             _timer = _myGun.GunData.rateOfFire;
             _target = _entity.AttackTarget;
         }
@@ -42,31 +43,32 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
+
             if (_entity.HasToRunAway)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;
             }
 
-            if (_target == null || !_entity.HaveTargetToAttack())
+            if (_target !=  null)
             {
-                _fsm.ChangeState(FollowersEntitiesStates.Idle);
-                return;
+                Attack();
             }
+
 
             if (_entity.HasToMoveInPath)
             {
-                _fsm.ChangeState(FollowersEntitiesStates.Move);
+                _fsm.ChangeState(FollowersEntitiesStates.Seek);
                 return;
             }
 
-            Attack();
 
         }
 
         private void Attack()
         {
             _timer += Time.deltaTime;
+
             Vector3 lookDirection = (_target.transform.position - _entity.transform.position).normalized;
             _entity.transform.forward = lookDirection;
 

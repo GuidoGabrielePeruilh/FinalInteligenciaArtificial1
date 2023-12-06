@@ -124,7 +124,7 @@ namespace IA_I.EntityNS
             }
         }
 
-        public void OnDamageRecived(float dmg)
+        public virtual void OnDamageRecived(float dmg)
         {
             CurrentLife -= dmg;
             if (CurrentLife <= MyEntityData.maxLife * MyEntityData.percentageOfLifeToRunAway)

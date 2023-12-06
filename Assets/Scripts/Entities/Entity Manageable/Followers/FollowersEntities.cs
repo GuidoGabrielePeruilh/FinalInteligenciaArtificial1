@@ -68,6 +68,12 @@ namespace IA_I.EntityNS.Follower
             return distanceFromTarget.sqrMagnitude <= FollowersManager.Instance.ViewRadius;
         }
 
+        public override void OnDamageRecived(float dmg)
+        {
+            base.OnDamageRecived(dmg);
+            FollowersManager.Instance.RemoveFollower(this, LeaderToFollow);
+        }
+
         #region Movement
         public void FlockingMove(Vector3 dir)
         {
