@@ -28,6 +28,7 @@ namespace IA_I.EntityNS.Manegeable
 
         private void Start()
         {
+            HasToMove = false;
             _fsm.ChangeState(ManageableEntityStates.Move);
         }
 
@@ -40,6 +41,12 @@ namespace IA_I.EntityNS.Manegeable
         private void LateUpdate()
         {
             _fsm.LateUpdate();
+        }
+
+        public override void UpdateTargetPosition(Vector3 targetPosition)
+        {
+            HasToMove = true;
+            TargetPosition = targetPosition;
         }
 
         protected override void BasicMove(Vector3 dir)

@@ -93,16 +93,7 @@ namespace IA_I.EntityNS
             return false;
         }
 
-        public void UpdateTargetPosition(Vector3 targetPosition)
-        {
-            if (TargetPosition != targetPosition)
-            {
-                HasToMove = true;
-                TargetPosition = targetPosition;
-            }
-            else
-                HasToMove = false;
-        }
+        public abstract void UpdateTargetPosition(Vector3 targetPosition);
 
         protected abstract void BasicMove(Vector3 dir);
 
@@ -112,6 +103,7 @@ namespace IA_I.EntityNS
             if (pathToFollow.Count == 0)
             {
                 HasArriveToDestiny = true;
+                HasToMove = false;
                 return;
             }
 

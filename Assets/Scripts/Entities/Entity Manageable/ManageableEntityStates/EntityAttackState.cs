@@ -26,12 +26,16 @@ namespace IA_I.FSM.StatesBehaviour
 
         public void OnEnter()
         {
+            Debug.Log("Leader Enter Attack");
+
             _timer = _attackCooldown;
             _target = _myEntity.AttackTarget;
         }
 
         public void OnExit()
         {
+            Debug.Log("Leader Exit Attack");
+
             _target = null;
             _timer = 0;
         }

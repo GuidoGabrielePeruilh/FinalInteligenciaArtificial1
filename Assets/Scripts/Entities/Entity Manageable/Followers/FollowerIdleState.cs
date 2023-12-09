@@ -23,6 +23,7 @@ namespace IA_I.StatesBehaviour
 
         public void OnExit()
         {
+            Debug.Log("Enter Idle");
         }
 
         public void OnLateUpdate()
@@ -46,9 +47,8 @@ namespace IA_I.StatesBehaviour
 
             if (_entity.IsCloseFromLeader())
             {
-                _entity.FlockingMove(_entity.Arrive(_entity.LeaderToFollow.gameObject));
+                _entity.Stop();
             }
-
         }
     }
 }

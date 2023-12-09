@@ -50,8 +50,10 @@ namespace IA_I.EntityNS.Follower
 
         private void Update()
         {
-            if (_leaderToFollow == null) return;
-            UpdateTargetPosition(_leaderToFollow.TargetPosition);
+            if (_leaderToFollow != null)
+            {
+                UpdateTargetPosition(_leaderToFollow.TargetPosition);
+            }
             _separationForce = Separation() * FollowersManager.Instance.SeparationWeight;
             _alignmentForce = Alignment() * FollowersManager.Instance.AlignmentWeight;
             _cohesionForce = Cohesion() * FollowersManager.Instance.CohesionWeight;
@@ -66,6 +68,7 @@ namespace IA_I.EntityNS.Follower
 
         public bool IsCloseFromLeader()
         {
+            if (_leaderToFollow == null) return true;
             var distanceFromTarget = _leaderToFollow.transform.position - transform.position;
             return distanceFromTarget.sqrMagnitude <= FollowersManager.Instance.ViewRadius;
         }
@@ -75,6 +78,21 @@ namespace IA_I.EntityNS.Follower
             base.OnDamageRecived(dmg);
             FollowersManager.Instance.RemoveFollower(this, LeaderToFollow);
         }
+
+        public override void UpdateTargetPosition(Vector3 targetPosition)
+        {
+            {
+                if (TargetPosition != targetPosition)
+                {
+                    HasToMove = true;
+                    TargetPosition = targetPosition;
+                }
+                else
+                    HasToMove = false;
+            }
+        }
+
+
 
         #region Movement
         public void FlockingMove(Vector3 dir)
@@ -87,7 +105,10 @@ namespace IA_I.EntityNS.Follower
             AddForce(CalculateSteering(dir, MyEntityData.speed) + _combinedForce, MyEntityData.speed);
         }
 
-
+        public void Stop()
+        {
+            _velocity = Vector3.zero;
+        }
         #endregion
 
         #region Steering Behaviors
@@ -115,6 +136,8 @@ namespace IA_I.EntityNS.Follower
 
             return CalculateSteering(desired, speed);
         }
+
+
 
         #endregion
 

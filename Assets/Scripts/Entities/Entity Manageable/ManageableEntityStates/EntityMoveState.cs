@@ -20,12 +20,15 @@ namespace IA_I.FSM.StatesBehaviour
         }
         public void OnEnter()
         {
+            Debug.Log("Leader Enter Move");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
 
         public void OnExit()
         {
+            Debug.Log("Leader Exit Move");
+
             _startingNode = null;
             _goalNode = null;
         }
@@ -37,14 +40,14 @@ namespace IA_I.FSM.StatesBehaviour
 
         public void OnUpdate()
         {
+            _entity.FollowPath(_pathToFollow);
 
-            if (!_entity.HasToMove)
+            if (_entity.HasArriveToDestiny)
             {
                 _fsm.ChangeState(ManageableEntityStates.Idle);
                 return;
             }
 
-            _entity.FollowPath(_pathToFollow);
             if (_targetPosition == _entity.TargetPosition) return;
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
