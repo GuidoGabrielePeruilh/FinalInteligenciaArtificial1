@@ -22,8 +22,12 @@ namespace IA_I.StatesBehaviour
         }
         public void OnEnter()
         {
-            Debug.Log("Enter Run Away");
-            _targetPosition = _entity.GetRandomNodeToRun().transform.position;
+            var randomNode = _entity.GetRandomNodeToRun();
+            if (randomNode != null)
+                _targetPosition = randomNode.transform.position;
+            else
+                _targetPosition = _entity.transform.position;
+
             UpdatePath();
         }
 

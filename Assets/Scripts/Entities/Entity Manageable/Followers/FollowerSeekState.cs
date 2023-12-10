@@ -22,7 +22,6 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log($"{_entity.gameObject.name} Enter Seek");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
@@ -41,7 +40,13 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
-            if (_entity.HasLowLife)
+            if (_entity.LeaderToFollow == null)
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.Idle);
+                return;
+            }
+
+            if (_entity.HasToRunAway)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;

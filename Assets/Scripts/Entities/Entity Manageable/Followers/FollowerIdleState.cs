@@ -17,8 +17,6 @@ namespace IA_I.StatesBehaviour
         }
         public void OnEnter()
         {
-            Debug.Log($"{_entity.gameObject.name} Enter Idle");
-
         }
 
         public void OnExit()
@@ -38,10 +36,15 @@ namespace IA_I.StatesBehaviour
                 return;
             }
 
-            if (!_entity.IsCloseFromLeader() && !_entity.HasLowLife)
+            if (!_entity.IsCloseFromLeader() && !_entity.HasToRunAway)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.Seek);
                 return;
+            }
+
+            if (_entity.HasToRunAway)
+            {
+                _fsm.ChangeState(FollowersEntitiesStates.RunAway);
             }
 
             _entity.Stop();

@@ -21,7 +21,7 @@ namespace IA_I.EntityNS
         public Vector3 TargetPosition { get; protected set; }
         public bool HasToMove { get; protected set; }
         public bool HasArriveToDestiny { get; protected set; }
-        public bool HasLowLife { get; protected set; }
+        public bool HasToRunAway { get; protected set; }
         public float CurrentLife { get; protected set; }
         public Transform AttackTarget { get; protected set; }
 
@@ -33,7 +33,7 @@ namespace IA_I.EntityNS
                 child.gameObject.tag = _team.ToString();
             }
             CurrentLife = MyEntityData.MaxLife;
-            HasLowLife = false;
+            HasToRunAway = false;
         }
 
         protected Vector3 AvoidObstacles(float radius)
@@ -74,20 +74,6 @@ namespace IA_I.EntityNS
                 Vector3.ClampMagnitude((desired.normalized * speed) - _velocity, MyEntityData.MaxForce);
         }
 
-        public Node GetRandomNodeToRun()
-        {
-            var myPosiblesNodes = NodesManager.Instance.GetAllNodes()
-                .Where(node => node.IsBlocked)
-                .SelectMany(node => node.GetNeighbors())
-                .OrderByDescending(node => Vector3.Distance(node.transform.position, transform.position))
-                .Take(50)
-                .ToList();
-
-
-            var randomNode = Random.Range(0, myPosiblesNodes.Count);
-            return myPosiblesNodes[randomNode];
-        }
-
         public void FOV()
         {
             var targets = Physics.OverlapSphere(transform.position, MyEntityData.AttackRadius, MyEntityData.TargetLayerMask);
@@ -120,10 +106,11 @@ namespace IA_I.EntityNS
         public void FollowPath(Stack<Node> pathToFollow)
         {
             HasArriveToDestiny = false;
-            if (pathToFollow.Count == 0)
+            if (pathToFollow.Count == 0 || pathToFollow == null)
             {
                 HasArriveToDestiny = true;
                 HasToMove = false;
+                HasToRunAway = false;
                 return;
             }
 
@@ -144,7 +131,7 @@ namespace IA_I.EntityNS
             CurrentLife -= dmg;
             if (CurrentLife <= MyEntityData.MaxLife * MyEntityData.PercentageOfLifeToRunAway)
             {
-                HasLowLife = true;
+                HasToRunAway = true;
             }
             if (CurrentLife > 0) return;
             Destroy(gameObject);
@@ -175,8 +162,6 @@ namespace IA_I.EntityNS
 
             // Dibujar el arco que conecta los lados del cono de visión
             Gizmos.color = Color.cyan;
-            Gizmos.DrawRay(transform.position + leftDir * MyEntityData.AttackRadius, viewAngleA - leftDir * MyEntityData.AttackRadius);
-            Gizmos.DrawRay(transform.position + rightDir * MyEntityData.AttackRadius, viewAngleB - rightDir * MyEntityData.AttackRadius);
             Gizmos.DrawRay(transform.position, transform.forward * MyEntityData.AttackRadius);
         }
     }

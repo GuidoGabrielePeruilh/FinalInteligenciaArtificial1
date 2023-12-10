@@ -12,7 +12,7 @@ namespace IA_I.EntityNS.Manegeable
         [SerializeField] List<FollowersEntities> _myFollowers;
         [SerializeField] float _viewRadius = 5;
 
-        private void Awake()
+        new private void Awake()
         {
             base.Awake();
             UpdateTargetPosition(transform.position);
@@ -66,13 +66,13 @@ namespace IA_I.EntityNS.Manegeable
                 _myFollowers.Remove(follower);
         }
 
-        private void OnDrawGizmos()
+        new private void OnDrawGizmos()
         {
-            base.OnDrawGizmos();
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, MyEntityData.AttackRadius);
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _viewRadius);
+            //base.OnDrawGizmos();
+            //Gizmos.color = Color.red;
+            //Gizmos.DrawWireSphere(transform.position, MyEntityData.AttackRadius);
+            //Gizmos.color = Color.green;
+            //Gizmos.DrawWireSphere(transform.position, _viewRadius);
         }
     }
 }

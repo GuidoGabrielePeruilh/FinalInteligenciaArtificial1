@@ -20,12 +20,9 @@ MonoBehaviour:
   <AttackCooldown>k__BackingField: 1
   <AttackRadius>k__BackingField: 2
   <ViewAngle>k__BackingField: 273
-  <WallsLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 8
-  <TargetLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 256
   <ObstacleLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 2056
+  <TargetLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256

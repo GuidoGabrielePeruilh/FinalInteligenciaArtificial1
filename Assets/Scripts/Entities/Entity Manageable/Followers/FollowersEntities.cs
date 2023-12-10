@@ -1,6 +1,7 @@
 using IA_I.EntityNS.Manegeable;
 using IA_I.StatesBehaviour;
 using IA_I.Weapons.Guns;
+using System.Linq;
 using UnityEngine;
 
 namespace IA_I.EntityNS.Follower
@@ -23,7 +24,7 @@ namespace IA_I.EntityNS.Follower
         private Vector3 _cohesionForce;
         private Vector3 _combinedForce;
 
-        private void Awake()
+        new private void Awake()
         {
             base.Awake();
             _myGun = GetComponentInChildren<Gun>();
@@ -65,6 +66,23 @@ namespace IA_I.EntityNS.Follower
         private void LateUpdate()
         {
             _fsm.LateUpdate();
+        }
+
+        public Node GetRandomNodeToRun()
+        {
+            var myPosiblesNodes = NodesManager.Instance.GetAllNodes()
+                .Where(node => node.IsBlocked)
+                .SelectMany(node => node.GetNeighbors())
+                .Where(node => !NodesManager.Instance.CheckExistingNode(NodesManager.NodesLists.Used, node))
+                .OrderByDescending(node => Vector3.Distance(node.transform.position, transform.position))
+                .Take(50)
+                .ToList();
+            if (myPosiblesNodes.Count == 0)
+                return null;
+
+            var randomNode = myPosiblesNodes[Random.Range(0, myPosiblesNodes.Count)];
+            NodesManager.Instance.RegistrerNewUsedNode(randomNode);
+            return randomNode;
         }
 
         public bool IsCloseFromLeader()
@@ -226,7 +244,7 @@ namespace IA_I.EntityNS.Follower
         #endregion
      
         #region gizmos
-        private void OnDrawGizmos()
+        new private void OnDrawGizmos()
         {
             base.OnDrawGizmos();
 
@@ -236,8 +254,8 @@ namespace IA_I.EntityNS.Follower
                 //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
 
 
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
+                //Gizmos.color = Color.yellow;
+                //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
 
 
                 //Gizmos.color = Color.blue;

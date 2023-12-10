@@ -20,8 +20,6 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log($"{_entity.gameObject.name} Enter Move");
-
         }
 
         public void OnExit()
@@ -36,7 +34,7 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
-            if (_entity.HasLowLife)
+            if (_entity.HasToRunAway)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;

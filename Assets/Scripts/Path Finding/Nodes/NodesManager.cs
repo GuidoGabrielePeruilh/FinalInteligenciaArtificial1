@@ -5,10 +5,17 @@ using System.Linq;
 
 public class NodesManager : MonoBehaviour
 {
+    public enum NodesLists
+    {
+        Used,
+        Valid,
+        Invalid,
+    }
+
     public static NodesManager Instance { get; private set; }
+    public List<Node> UsedNodes { get; private set; }
     public LayerMask BlockedNodeLayer => _blockedNodeLayer;
     [SerializeField] private LayerMask _blockedNodeLayer;
-    //[SerializeField] private float _radiusToFindNode = 0.5f;
     [SerializeReference] private List<Node> _validNodes;
     [SerializeReference] private List<Node> _invalidNodes;
     private Node _node;
@@ -16,10 +23,24 @@ public class NodesManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        UsedNodes = new List<Node>();
+    }
+
+    public void RegistrerNewUsedNode(Node node)
+    {
+        if (UsedNodes.Contains(node)) return;
+        UsedNodes.Add(node);
+    }
+
+    public void RemoveUsedNode(Node node)
+    {
+        if (!UsedNodes.Contains(node)) return;
+        UsedNodes.Remove(node);
     }
 
     public void SuscribeNode(Node node)
     {
+        if (_validNodes.Contains(node)) return;
         _validNodes.Add(node);
     }
 
@@ -31,6 +52,7 @@ public class NodesManager : MonoBehaviour
 
     public void SuscribeBlockedNode(Node node)
     {
+        if (_invalidNodes.Contains(node)) return;
         _invalidNodes.Add(node);
     }
 
@@ -38,6 +60,17 @@ public class NodesManager : MonoBehaviour
     {
         if (!_invalidNodes.Contains(node)) return;
         _invalidNodes.Remove(node);
+    }
+
+    public bool CheckExistingNode(NodesLists nodeListType, Node node)
+    {
+        return nodeListType switch
+        {
+            NodesLists.Used => UsedNodes.Contains(node),
+            NodesLists.Valid => _validNodes.Contains(node),
+            NodesLists.Invalid => _invalidNodes.Contains(node),
+            _ => false,
+        };
     }
 
     public Node SetNode(Vector3 position)

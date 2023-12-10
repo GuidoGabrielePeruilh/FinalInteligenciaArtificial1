@@ -13,7 +13,6 @@ namespace IA_I.StatesBehaviour
         FollowersEntities _entity;
         Gun _myGun;
         float _timer;
-        Transform _target;
 
         public FollowerAttackState(FSM<FollowersEntitiesStates> fsm, FollowersEntities entity, Gun gun)
         {
@@ -24,15 +23,12 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log("Enter Attack");
             _timer = _myGun.GunData.rateOfFire;
-            _target = _entity.AttackTarget;
         }
 
         public void OnExit()
         {
             _timer = 0;
-            _target = null;
         }
 
         public void OnLateUpdate()
@@ -43,8 +39,7 @@ namespace IA_I.StatesBehaviour
         public void OnUpdate()
         {
 
-
-            if (_entity.HasLowLife)
+            if (_entity.HasToRunAway)
             {
                 _fsm.ChangeState(FollowersEntitiesStates.RunAway);
                 return;
@@ -62,7 +57,7 @@ namespace IA_I.StatesBehaviour
                 return;
             }
 
-            if (_target !=  null)
+            if (_entity.AttackTarget !=  null)
             {
                 Attack();
             }
@@ -72,12 +67,12 @@ namespace IA_I.StatesBehaviour
         {
             _timer += Time.deltaTime;
 
-            Vector3 lookDirection = (_target.transform.position - _entity.transform.position).normalized;
+            Vector3 lookDirection = (_entity.AttackTarget.transform.position - _entity.transform.position).normalized;
             _entity.transform.forward = lookDirection;
 
             if (_timer >= _myGun.GunData.rateOfFire)
             {
-                _myGun.Attack(_target.transform.position, _entity);
+                _myGun.Attack(_entity.AttackTarget.transform.position, _entity);
                 _timer = 0;
             }
         }
