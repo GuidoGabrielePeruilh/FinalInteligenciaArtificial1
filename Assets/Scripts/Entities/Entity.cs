@@ -36,6 +36,27 @@ namespace IA_I.EntityNS
             HasLowLife = false;
         }
 
+        protected Vector3 AvoidObstacles(float radius)
+        {
+            Vector3 desired = Vector3.zero;
+
+            Collider[] allObstacles = Physics.OverlapSphere(transform.position, radius, MyEntityData.ObstacleLayerMask);
+
+            foreach (var obstacle in allObstacles)
+            {
+                var angle = Vector3.SignedAngle(transform.forward, obstacle.transform.position - transform.position, Vector3.up);
+
+                if (Mathf.Abs(angle) <= MyEntityData.ViewAngle)
+                {
+                    var sign = Mathf.Sign(angle);
+
+                    return CalculateSteering(transform.right * -sign, MyEntityData.Speed);
+                }
+            }
+
+            return CalculateSteering(desired, MyEntityData.Speed);
+        }
+
         protected virtual void AddForce(Vector3 force, float speed)
         {
             _velocity += force;
@@ -49,9 +70,8 @@ namespace IA_I.EntityNS
 
         protected Vector3 CalculateSteering(Vector3 desired, float speed)
         {
-            desired.Normalize();
-            desired *= speed;
-            return Vector3.ClampMagnitude(desired - _velocity, MyEntityData.MaxForce);
+            return desired == Vector3.zero ? desired :
+                Vector3.ClampMagnitude((desired.normalized * speed) - _velocity, MyEntityData.MaxForce);
         }
 
         public Node GetRandomNodeToRun()
@@ -78,7 +98,7 @@ namespace IA_I.EntityNS
                     enemy != null &&
                     Vector3.Distance(enemy.transform.position, transform.position) <= MyEntityData.AttackRadius &&
                     Vector3.Angle(transform.forward, (enemy.transform.position - transform.position).normalized) < MyEntityData.ViewAngle / 2 &&
-                    !Physics.Linecast(transform.position, enemy.transform.position, MyEntityData.WallsLayerMask) &&
+                    !Physics.Linecast(transform.position, enemy.transform.position, MyEntityData.ObstacleLayerMask) &&
                     enemy.Team != _team)
                 .OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position))
                 .Select(enemy => enemy.transform)

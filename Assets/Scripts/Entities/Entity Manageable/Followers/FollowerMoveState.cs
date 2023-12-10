@@ -20,7 +20,7 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log("Enter Move");
+            Debug.Log($"{_entity.gameObject.name} Enter Move");
 
         }
 
@@ -64,10 +64,8 @@ namespace IA_I.StatesBehaviour
 
             Vector3 dir;
 
-            if (_leaderToFollow.Velocity.sqrMagnitude < 0.1f)
-                dir = _entity.Separation() * FollowersManager.Instance.SeparationWeight;
-            else
-                dir = _entity.Arrive(_leaderToFollow.gameObject);
+
+            dir = _entity.Arrive(_leaderToFollow.gameObject);
 
 
             _entity.FlockingMove(dir);

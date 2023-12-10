@@ -27,7 +27,6 @@ namespace IA_I.EntityNS.Follower
         {
             base.Awake();
             _myGun = GetComponentInChildren<Gun>();
-            UpdateTargetPosition(transform.position);
             _fsm = new FSM<FollowersEntitiesStates>();
             IState move = new FollowerMoveState(_fsm, this, _leaderToFollow);
             IState idle = new FollowerIdleState(_fsm, this);
@@ -45,7 +44,9 @@ namespace IA_I.EntityNS.Follower
         private void Start()
         {
             FollowersManager.Instance.RegisterNewFollower(this, _leaderToFollow);
-            _fsm.ChangeState(FollowersEntitiesStates.Move);
+            TargetPosition = transform.position;
+            HasToMove = false;
+            _fsm.ChangeState(FollowersEntitiesStates.Idle);
         }
 
         private void Update()
@@ -81,15 +82,13 @@ namespace IA_I.EntityNS.Follower
 
         public override void UpdateTargetPosition(Vector3 targetPosition)
         {
+            if (TargetPosition != targetPosition)
             {
-                if (TargetPosition != targetPosition)
-                {
-                    HasToMove = true;
-                    TargetPosition = targetPosition;
-                }
-                else
-                    HasToMove = false;
+                HasToMove = true;
+                TargetPosition = targetPosition;
             }
+            else
+                HasToMove = false;
         }
 
 
@@ -102,7 +101,7 @@ namespace IA_I.EntityNS.Follower
 
         protected override void BasicMove(Vector3 dir)
         {
-            AddForce(CalculateSteering(dir, MyEntityData.Speed) + _combinedForce, MyEntityData.Speed);
+            AddForce(CalculateSteering(dir, MyEntityData.Speed) + _combinedForce + AvoidObstacles(Mathf.Sqrt(FollowersManager.Instance.ViewRadius)) * 2, MyEntityData.Speed);
         }
 
         public void Stop()
@@ -230,19 +229,20 @@ namespace IA_I.EntityNS.Follower
         private void OnDrawGizmos()
         {
             base.OnDrawGizmos();
+
             if (Application.isPlaying)
             {
                 //Gizmos.color = Color.red;
                 //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
 
 
-                //Gizmos.color = Color.yellow;
-                //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ViewRadius));
 
 
                 //Gizmos.color = Color.blue;
                 //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.SeparationRadius));
-           
+
             }
         }
         #endregion

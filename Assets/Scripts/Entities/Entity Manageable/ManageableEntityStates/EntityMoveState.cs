@@ -20,14 +20,12 @@ namespace IA_I.FSM.StatesBehaviour
         }
         public void OnEnter()
         {
-            Debug.Log("Leader Enter Move");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
 
         public void OnExit()
         {
-            Debug.Log("Leader Exit Move");
 
             _startingNode = null;
             _goalNode = null;

@@ -22,7 +22,7 @@ namespace IA_I.StatesBehaviour
 
         public void OnEnter()
         {
-            Debug.Log("Enter Seek");
+            Debug.Log($"{_entity.gameObject.name} Enter Seek");
             _targetPosition = _entity.TargetPosition;
             UpdatePath();
         }
@@ -48,7 +48,6 @@ namespace IA_I.StatesBehaviour
             }
 
             _entity.FollowPath(_pathToFollow);
-
             if (_entity.HasArriveToDestiny)
             {
                 if (_entity.IsCloseFromLeader())

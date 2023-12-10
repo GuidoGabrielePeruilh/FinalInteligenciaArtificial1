@@ -51,7 +51,7 @@ namespace IA_I.EntityNS.Manegeable
 
         protected override void BasicMove(Vector3 dir)
         {
-            AddForce(CalculateSteering(dir, MyEntityData.Speed), MyEntityData.Speed);
+            AddForce(CalculateSteering(dir, MyEntityData.Speed) + AvoidObstacles(_viewRadius) * 2, MyEntityData.Speed);
         }
 
         public void AddFollower(FollowersEntities follower)

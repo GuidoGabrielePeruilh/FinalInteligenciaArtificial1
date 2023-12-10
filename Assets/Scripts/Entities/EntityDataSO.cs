@@ -13,8 +13,7 @@ namespace IA_I.SO
         [field: SerializeField, Range(0.5f, 5)] public float AttackCooldown { get; private set; } = 1f;
         [field: SerializeField, Range(0.5f, 5)] public float AttackRadius { get; private set; } = 1f;
         [field: SerializeField, Range(0f, 360f)] public float ViewAngle { get; private set; } = 45f;
-        [field: SerializeField] public LayerMask WallsLayerMask { get; private set; }
-        [field: SerializeField] public LayerMask TargetLayerMask { get; private set; }
         [field: SerializeField] public LayerMask ObstacleLayerMask { get; private set; }
+        [field: SerializeField] public LayerMask TargetLayerMask { get; private set; }
     }
 }

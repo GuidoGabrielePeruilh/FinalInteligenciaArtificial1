@@ -17,13 +17,12 @@ namespace IA_I.StatesBehaviour
         }
         public void OnEnter()
         {
-            Debug.Log("Enter Idle");
+            Debug.Log($"{_entity.gameObject.name} Enter Idle");
 
         }
 
         public void OnExit()
         {
-            Debug.Log("Enter Idle");
         }
 
         public void OnLateUpdate()
@@ -45,10 +44,8 @@ namespace IA_I.StatesBehaviour
                 return;
             }
 
-            if (_entity.IsCloseFromLeader())
-            {
-                _entity.Stop();
-            }
+            _entity.Stop();
+
         }
     }
 }

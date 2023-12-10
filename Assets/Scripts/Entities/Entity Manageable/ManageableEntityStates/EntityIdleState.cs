@@ -15,13 +15,11 @@ namespace IA_I.FSM.StatesBehaviour
         }
         public void OnEnter()
         {
-            Debug.Log("Leader Enter Idle");
 
         }
 
         public void OnExit()
         {
-            Debug.Log("Leader Exit Idle");
 
         }
 
