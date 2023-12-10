@@ -102,7 +102,7 @@ namespace IA_I.EntityNS.Follower
 
         protected override void BasicMove(Vector3 dir)
         {
-            AddForce(CalculateSteering(dir, MyEntityData.speed) + _combinedForce, MyEntityData.speed);
+            AddForce(CalculateSteering(dir, MyEntityData.Speed) + _combinedForce, MyEntityData.Speed);
         }
 
         public void Stop()
@@ -116,7 +116,7 @@ namespace IA_I.EntityNS.Follower
         public Vector3 Arrive(GameObject leader)
         {
             var desired = Vector3.zero;
-            var speed = MyEntityData.speed;
+            var speed = MyEntityData.Speed;
             var distanceFromTarget = leader.transform.position - transform.position;
 
 
@@ -124,11 +124,11 @@ namespace IA_I.EntityNS.Follower
             float arriveRadius = FollowersManager.Instance.ArriveRadius;
             if (distanceFromTarget.sqrMagnitude <= arriveRadius)
             {
-                speed = MyEntityData.speed * ((distanceFromTarget.sqrMagnitude + 1) / arriveRadius);
+                speed = MyEntityData.Speed * ((distanceFromTarget.sqrMagnitude + 1) / arriveRadius);
             }
             desired *= speed;
 
-            if (desired.sqrMagnitude <= MyEntityData.distanceToLowSpeed * MyEntityData.distanceToLowSpeed)
+            if (desired.sqrMagnitude <= MyEntityData.DistanceToLowSpeed * MyEntityData.DistanceToLowSpeed)
             {
                 _velocity = Vector3.zero;
                 return Vector3.zero;
@@ -136,8 +136,6 @@ namespace IA_I.EntityNS.Follower
 
             return CalculateSteering(desired, speed);
         }
-
-
 
         #endregion
 
@@ -170,7 +168,7 @@ namespace IA_I.EntityNS.Follower
 
             if (desired == Vector3.zero) return desired;
 
-            return CalculateSteering(desired, MyEntityData.speed);
+            return CalculateSteering(desired, MyEntityData.Speed);
         }
 
         private Vector3 Alignment()
@@ -196,7 +194,7 @@ namespace IA_I.EntityNS.Follower
 
             desired /= count;
 
-            return CalculateSteering(desired, MyEntityData.speed);
+            return CalculateSteering(desired, MyEntityData.Speed);
         }
 
         private Vector3 Cohesion()
@@ -223,7 +221,7 @@ namespace IA_I.EntityNS.Follower
 
             desired -= transform.position;
 
-            return CalculateSteering(desired, MyEntityData.speed);
+            return CalculateSteering(desired, MyEntityData.Speed);
         }
 
         #endregion
@@ -231,10 +229,10 @@ namespace IA_I.EntityNS.Follower
         #region gizmos
         private void OnDrawGizmos()
         {
+            base.OnDrawGizmos();
             if (Application.isPlaying)
             {
-                base.OnDrawGizmos();
-                Gizmos.color = Color.red;
+                //Gizmos.color = Color.red;
                 //Gizmos.DrawWireSphere(transform.position, Mathf.Sqrt(FollowersManager.Instance.ArriveRadius));
 
 

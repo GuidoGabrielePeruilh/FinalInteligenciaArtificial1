@@ -15,7 +15,7 @@ namespace IA_I.EntityNS
         public void TakeDamage(float damage)
         {
             _entity.OnDamageRecived(damage);
-            _slider.UpdateSlider(_entity.CurrentLife, _entity.MyEntityData.maxLife);
+            _slider.UpdateSlider(_entity.CurrentLife, _entity.MyEntityData.MaxLife);
         }
     }
 }

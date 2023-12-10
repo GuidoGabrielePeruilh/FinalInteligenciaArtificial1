@@ -32,7 +32,7 @@ namespace IA_I.EntityNS
             {
                 child.gameObject.tag = _team.ToString();
             }
-            CurrentLife = MyEntityData.maxLife;
+            CurrentLife = MyEntityData.MaxLife;
             HasLowLife = false;
         }
 
@@ -51,7 +51,7 @@ namespace IA_I.EntityNS
         {
             desired.Normalize();
             desired *= speed;
-            return Vector3.ClampMagnitude(desired - _velocity, MyEntityData.maxForce);
+            return Vector3.ClampMagnitude(desired - _velocity, MyEntityData.MaxForce);
         }
 
         public Node GetRandomNodeToRun()
@@ -70,15 +70,15 @@ namespace IA_I.EntityNS
 
         public void FOV()
         {
-            var targets = Physics.OverlapSphere(transform.position, MyEntityData.attackRadius, MyEntityData.targetLayer);
+            var targets = Physics.OverlapSphere(transform.position, MyEntityData.AttackRadius, MyEntityData.TargetLayerMask);
 
             _enemiesInView = targets
                 .Select(target => target.GetComponent<Entity>())
                 .Where(enemy =>
                     enemy != null &&
-                    Vector3.Distance(enemy.transform.position, transform.position) <= MyEntityData.attackRadius &&
-                    Vector3.Angle(transform.forward, (enemy.transform.position - transform.position).normalized) < MyEntityData.viewAngle / 2 &&
-                    !Physics.Linecast(transform.position, enemy.transform.position, MyEntityData.obstacleLayerMask) &&
+                    Vector3.Distance(enemy.transform.position, transform.position) <= MyEntityData.AttackRadius &&
+                    Vector3.Angle(transform.forward, (enemy.transform.position - transform.position).normalized) < MyEntityData.ViewAngle / 2 &&
+                    !Physics.Linecast(transform.position, enemy.transform.position, MyEntityData.WallsLayerMask) &&
                     enemy.Team != _team)
                 .OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position))
                 .Select(enemy => enemy.transform)
@@ -113,7 +113,7 @@ namespace IA_I.EntityNS
 
             BasicMove(dir);
 
-            if (dir.sqrMagnitude < MyEntityData.distanceToLowSpeed * MyEntityData.distanceToLowSpeed)
+            if (dir.sqrMagnitude < MyEntityData.DistanceToLowSpeed * MyEntityData.DistanceToLowSpeed)
             {
                 pathToFollow.Pop();
             }
@@ -122,7 +122,7 @@ namespace IA_I.EntityNS
         public virtual void OnDamageRecived(float dmg)
         {
             CurrentLife -= dmg;
-            if (CurrentLife <= MyEntityData.maxLife * MyEntityData.percentageOfLifeToRunAway)
+            if (CurrentLife <= MyEntityData.MaxLife * MyEntityData.PercentageOfLifeToRunAway)
             {
                 HasLowLife = true;
             }
@@ -133,21 +133,21 @@ namespace IA_I.EntityNS
         protected virtual void OnDrawGizmos()
         {
             // Calcular los puntos extremos del cono de visión
-            Vector3 leftDir = Quaternion.Euler(0, -MyEntityData.viewAngle / 2, 0) * transform.forward;
-            Vector3 rightDir = Quaternion.Euler(0, -MyEntityData.viewAngle / 2, 0) * transform.forward;
+            Vector3 leftDir = Quaternion.Euler(0, -MyEntityData.ViewAngle / 2, 0) * transform.forward;
+            Vector3 rightDir = Quaternion.Euler(0, -MyEntityData.ViewAngle / 2, 0) * transform.forward;
 
             // Dibujar los lados del cono de visión
             Gizmos.color = Color.grey ;
-            Gizmos.DrawRay(transform.position, leftDir * MyEntityData.attackRadius);
-            Gizmos.DrawRay(transform.position, rightDir * MyEntityData.attackRadius);
+            Gizmos.DrawRay(transform.position, leftDir * MyEntityData.AttackRadius);
+            Gizmos.DrawRay(transform.position, rightDir * MyEntityData.AttackRadius);
 
             // Dibujar el arco para visualizar el ángulo de visión
-            float halfFOV = MyEntityData.viewAngle / 2f;
-            float viewRadius = MyEntityData.attackRadius * Mathf.Tan(halfFOV * Mathf.Deg2Rad);
+            float halfFOV = MyEntityData.ViewAngle / 2f;
+            float viewRadius = MyEntityData.AttackRadius * Mathf.Tan(halfFOV * Mathf.Deg2Rad);
             Vector3 viewAngleA = Quaternion.Euler(0, -halfFOV, 0) * transform.forward *
-                                 MyEntityData.attackRadius;
+                                 MyEntityData.AttackRadius;
             Vector3 viewAngleB = Quaternion.Euler(0, halfFOV, 0) * transform.forward *
-                                 MyEntityData.attackRadius;
+                                 MyEntityData.AttackRadius;
 
             Gizmos.color = Color.grey;
             Gizmos.DrawRay(transform.position, viewAngleA);
@@ -155,9 +155,9 @@ namespace IA_I.EntityNS
 
             // Dibujar el arco que conecta los lados del cono de visión
             Gizmos.color = Color.cyan;
-            Gizmos.DrawRay(transform.position + leftDir * MyEntityData.attackRadius, viewAngleA - leftDir * MyEntityData.attackRadius);
-            Gizmos.DrawRay(transform.position + rightDir * MyEntityData.attackRadius, viewAngleB - rightDir * MyEntityData.attackRadius);
-            Gizmos.DrawRay(transform.position, transform.forward * MyEntityData.attackRadius);
+            Gizmos.DrawRay(transform.position + leftDir * MyEntityData.AttackRadius, viewAngleA - leftDir * MyEntityData.AttackRadius);
+            Gizmos.DrawRay(transform.position + rightDir * MyEntityData.AttackRadius, viewAngleB - rightDir * MyEntityData.AttackRadius);
+            Gizmos.DrawRay(transform.position, transform.forward * MyEntityData.AttackRadius);
         }
     }
 

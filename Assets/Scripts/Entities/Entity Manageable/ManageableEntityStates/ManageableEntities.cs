@@ -10,6 +10,7 @@ namespace IA_I.EntityNS.Manegeable
         FSM<ManageableEntityStates> _fsm;
         [SerializeField] Animator myAnimator;
         [SerializeField] List<FollowersEntities> _myFollowers;
+        [SerializeField] float _viewRadius = 5;
 
         private void Awake()
         {
@@ -18,7 +19,7 @@ namespace IA_I.EntityNS.Manegeable
             _fsm = new FSM<ManageableEntityStates>();
 
             IState move = new EntityMoveState(_fsm, this);
-            IState attack = new EntityAttackState(_fsm, this, myAnimator, "Attack", MyEntityData.attackCooldown);
+            IState attack = new EntityAttackState(_fsm, this, myAnimator, "Attack", MyEntityData.AttackCooldown);
             IState idle = new EntityIdleState(_fsm, this);
             _fsm.AddState(ManageableEntityStates.Move, move);
             _fsm.AddState(ManageableEntityStates.Attack, attack);
@@ -35,7 +36,6 @@ namespace IA_I.EntityNS.Manegeable
         private void Update()
         {
             _fsm.Update();
-
         }
 
         private void LateUpdate()
@@ -51,7 +51,7 @@ namespace IA_I.EntityNS.Manegeable
 
         protected override void BasicMove(Vector3 dir)
         {
-            AddForce(CalculateSteering(dir, MyEntityData.speed), MyEntityData.speed);
+            AddForce(CalculateSteering(dir, MyEntityData.Speed), MyEntityData.Speed);
         }
 
         public void AddFollower(FollowersEntities follower)
@@ -70,7 +70,9 @@ namespace IA_I.EntityNS.Manegeable
         {
             base.OnDrawGizmos();
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, MyEntityData.attackRadius);
+            Gizmos.DrawWireSphere(transform.position, MyEntityData.AttackRadius);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, _viewRadius);
         }
     }
 }

@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b15676dc161e7544ac1331e57b73bc0, type: 3}
   m_Name: Followers
   m_EditorClassIdentifier: 
-  <speed>k__BackingField: 6
-  <maxLife>k__BackingField: 200
-  <distanceToLowSpeed>k__BackingField: 5
-  <percentageOfLifeToRunAway>k__BackingField: 0.5
-  <maxForce>k__BackingField: 0.125
-  <attackCooldown>k__BackingField: 1
-  <attackRadius>k__BackingField: 5
-  <viewAngle>k__BackingField: 270
-  <obstacleLayerMask>k__BackingField:
+  <Speed>k__BackingField: 7.5
+  <MaxLife>k__BackingField: 500
+  <DistanceToLowSpeed>k__BackingField: 5
+  <PercentageOfLifeToRunAway>k__BackingField: 0.2
+  <MaxForce>k__BackingField: 0.5
+  <AttackCooldown>k__BackingField: 1.5
+  <AttackRadius>k__BackingField: 3.59
+  <ViewAngle>k__BackingField: 270
+  <WallsLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 8
-  <targetLayer>k__BackingField:
+  <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
+  <ObstacleLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 2056
