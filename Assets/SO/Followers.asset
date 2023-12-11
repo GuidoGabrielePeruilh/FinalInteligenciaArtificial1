@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Followers
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 5
-  <MaxLife>k__BackingField: 500
+  <MaxLife>k__BackingField: 200
   <DistanceToLowSpeed>k__BackingField: 3
-  <PercentageOfLifeToRunAway>k__BackingField: 0.6
+  <PercentageOfLifeToRunAway>k__BackingField: 0.2
   <MaxForce>k__BackingField: 0.5
   <AttackCooldown>k__BackingField: 1.5
   <AttackRadius>k__BackingField: 6

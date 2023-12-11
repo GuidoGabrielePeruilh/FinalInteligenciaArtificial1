@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using IA_I;
 
-public class NodesManager : MonoBehaviour
+public class NodesManager : Singleton<NodesManager>
 {
     public enum NodesLists
     {
@@ -11,8 +12,6 @@ public class NodesManager : MonoBehaviour
         Valid,
         Invalid,
     }
-
-    public static NodesManager Instance { get; private set; }
     public List<Node> UsedNodes { get; private set; }
     public LayerMask BlockedNodeLayer => _blockedNodeLayer;
     [SerializeField] private LayerMask _blockedNodeLayer;
@@ -20,9 +19,10 @@ public class NodesManager : MonoBehaviour
     [SerializeReference] private List<Node> _invalidNodes;
     private Node _node;
 
-    private void Awake()
+    new private void Awake()
     {
-        Instance = this;
+        itDestroyOnLoad = true;
+        base.Awake();
         UsedNodes = new List<Node>();
     }
 

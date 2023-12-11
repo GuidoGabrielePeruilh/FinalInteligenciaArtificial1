@@ -327,6 +327,7 @@ MonoBehaviour:
   _team: 0
   myAnimator: {fileID: 8097116310414977293}
   _myFollowers: []
+  _viewRadius: 1.63
 --- !u!114 &3734105587268934190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,7 +369,7 @@ GameObject:
   - component: {fileID: 1033017975582471317}
   - component: {fileID: 8097116310414977292}
   - component: {fileID: 8097116310414977293}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -453,6 +454,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swordData: {fileID: 11400000, guid: 70a0371438057dd4888ee3f2ff3036de, type: 2}
+  _damageableLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!54 &1033017975582471317
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -139,16 +139,13 @@ namespace IA_I.EntityNS
 
         protected virtual void OnDrawGizmos()
         {
-            // Calcular los puntos extremos del cono de visión
             Vector3 leftDir = Quaternion.Euler(0, -MyEntityData.ViewAngle / 2, 0) * transform.forward;
             Vector3 rightDir = Quaternion.Euler(0, -MyEntityData.ViewAngle / 2, 0) * transform.forward;
 
-            // Dibujar los lados del cono de visión
             Gizmos.color = Color.grey ;
             Gizmos.DrawRay(transform.position, leftDir * MyEntityData.AttackRadius);
             Gizmos.DrawRay(transform.position, rightDir * MyEntityData.AttackRadius);
 
-            // Dibujar el arco para visualizar el ángulo de visión
             float halfFOV = MyEntityData.ViewAngle / 2f;
             float viewRadius = MyEntityData.AttackRadius * Mathf.Tan(halfFOV * Mathf.Deg2Rad);
             Vector3 viewAngleA = Quaternion.Euler(0, -halfFOV, 0) * transform.forward *
@@ -160,7 +157,6 @@ namespace IA_I.EntityNS
             Gizmos.DrawRay(transform.position, viewAngleA);
             Gizmos.DrawRay(transform.position, viewAngleB);
 
-            // Dibujar el arco que conecta los lados del cono de visión
             Gizmos.color = Color.cyan;
             Gizmos.DrawRay(transform.position, transform.forward * MyEntityData.AttackRadius);
         }

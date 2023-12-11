@@ -1,14 +1,11 @@
 using IA_I.EntityNS.Manegeable;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace IA_I.EntityNS.Follower
 {
-    public class FollowersManager : MonoBehaviour
+    public class FollowersManager : Singleton<FollowersManager>
     {
-        public static FollowersManager Instance { get; private set; }
-
         public List<FollowersEntities> AllFollowers { get; private set; }
 
         public float ViewRadius => _viewRadius * _viewRadius;
@@ -32,10 +29,10 @@ namespace IA_I.EntityNS.Follower
         [field: SerializeField, Range(0f, 2.5f)]
         public float CohesionWeight { get; private set; }
 
-        void Awake()
+        new private void Awake()
         {
-            Instance = this;
-
+            itDestroyOnLoad = true;
+            base.Awake();
             AllFollowers = new List<FollowersEntities>();
         }
 

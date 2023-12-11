@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leaders
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 7.5
-  <MaxLife>k__BackingField: 200
+  <MaxLife>k__BackingField: 500
   <DistanceToLowSpeed>k__BackingField: 1
   <PercentageOfLifeToRunAway>k__BackingField: 0.1
   <MaxForce>k__BackingField: 0.5

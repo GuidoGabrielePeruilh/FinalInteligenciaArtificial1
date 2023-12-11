@@ -41,8 +41,9 @@ namespace IA_I.Bullets
         public void Shoot(Vector3 dir, Vector3 initialPosition, FollowersEntities owner)
         {
             _direction = dir - initialPosition;
+            _direction.y = 0;
             transform.position = initialPosition;
-            transform.rotation = Quaternion.LookRotation(_direction);
+            transform.forward = _direction;
             _owner = owner;
         }
 
