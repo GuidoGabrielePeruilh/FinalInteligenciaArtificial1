@@ -17,6 +17,7 @@ public class NodesCreator : MonoBehaviour
 
     private void Awake()
     {
+        DeleteAllNodes();
         CreateGrid();
     }
 
@@ -48,7 +49,7 @@ public class NodesCreator : MonoBehaviour
     private void DeleteAllNodes()
     {
         var nodesToDelete = FindObjectsOfType<Node>();
-        Debug.Log(nodesToDelete.Length);
+
         foreach (var node in nodesToDelete)
         {
             DestroyImmediate(node.gameObject);

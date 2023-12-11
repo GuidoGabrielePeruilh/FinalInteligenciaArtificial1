@@ -1,4 +1,6 @@
+using IA_I.EntityNS.Follower;
 using IA_I.FSM.StatesBehaviour;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IA_I.EntityNS.Manegeable
@@ -7,17 +9,19 @@ namespace IA_I.EntityNS.Manegeable
     {
         FSM<ManageableEntityStates> _fsm;
         [SerializeField] Animator myAnimator;
+        [SerializeField] List<FollowersEntities> _myFollowers;
+        [SerializeField] float _viewRadius = 5;
 
-        private void Awake()
+        new private void Awake()
         {
+            base.Awake();
             UpdateTargetPosition(transform.position);
-            CurrentLife = MyEntityData.maxLife;
             _fsm = new FSM<ManageableEntityStates>();
 
-            IState findPath = new EntityFindPathState(_fsm, this);
-            IState attack = new EntityAttackState(_fsm, this, myAnimator, "Attack", MyEntityData.attackCooldown);
+            IState move = new EntityMoveState(_fsm, this);
+            IState attack = new EntityAttackState(_fsm, this, myAnimator, "Attack", MyEntityData.AttackCooldown);
             IState idle = new EntityIdleState(_fsm, this);
-            _fsm.AddState(ManageableEntityStates.FindPath, findPath);
+            _fsm.AddState(ManageableEntityStates.Move, move);
             _fsm.AddState(ManageableEntityStates.Attack, attack);
             _fsm.AddState(ManageableEntityStates.Idle, idle);
 
@@ -25,31 +29,50 @@ namespace IA_I.EntityNS.Manegeable
 
         private void Start()
         {
-            _fsm.ChangeState(ManageableEntityStates.FindPath);
+            HasToMove = false;
+            _fsm.ChangeState(ManageableEntityStates.Move);
         }
 
         private void Update()
         {
             _fsm.Update();
-
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
-            _fsm.FixedUpdate();
+            _fsm.LateUpdate();
         }
 
-        public Vector3 UpdateTargetPosition(Vector3 targetPosition)
+        public override void UpdateTargetPosition(Vector3 targetPosition)
         {
             HasToMove = true;
-            return TargetPosition = targetPosition;
+            TargetPosition = targetPosition;
         }
 
-        private void OnDrawGizmos()
+        protected override void BasicMove(Vector3 dir)
         {
+            AddForce(CalculateSteering(dir, MyEntityData.Speed) + AvoidObstacles(_viewRadius) * 2, MyEntityData.Speed);
+        }
 
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, MyEntityData.attackRadius);
+        public void AddFollower(FollowersEntities follower)
+        {
+            if (!_myFollowers.Contains(follower))
+                _myFollowers.Add(follower);
+        }
+
+        public void RemoveFollower(FollowersEntities follower)
+        {
+            if (_myFollowers.Contains(follower))
+                _myFollowers.Remove(follower);
+        }
+
+        new private void OnDrawGizmos()
+        {
+            //base.OnDrawGizmos();
+            //Gizmos.color = Color.red;
+            //Gizmos.DrawWireSphere(transform.position, MyEntityData.AttackRadius);
+            //Gizmos.color = Color.green;
+            //Gizmos.DrawWireSphere(transform.position, _viewRadius);
         }
     }
 }

@@ -1,5 +1,6 @@
 using IA_I.EntityNS.Manegeable;
 using UnityEngine;
+using System.Linq;
 
 namespace IA_I.FSM.StatesBehaviour
 {
@@ -11,7 +12,7 @@ namespace IA_I.FSM.StatesBehaviour
         string _attackAnimationName;
         float _attackCooldown;
         float _timer;
-        GameObject _target;
+        Transform _target;
 
 
         public EntityAttackState(FSM<ManageableEntityStates> fsm, ManageableEntities myEntity, Animator myAnimator, string attackAnimationName, float attackCooldown)
@@ -35,32 +36,32 @@ namespace IA_I.FSM.StatesBehaviour
             _timer = 0;
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
-
+            _myEntity.FOV();
         }
 
         public void OnUpdate()
         {
-            if (_myEntity.HasToMove)
-            {
-                _fsm.ChangeState(ManageableEntityStates.FindPath);
-                return;
-            }
 
-            if (!_myEntity.HaveTargetToAttack())
+            if (_target == null || !_myEntity.HaveTargetToAttack())
             {
                 _fsm.ChangeState(ManageableEntityStates.Idle);
                 return;
             }
 
+            Attack();
+
+            if (_myEntity.HasToMove)
+            {
+                _fsm.ChangeState(ManageableEntityStates.Move);
+                return;
+            }
+        }
+
+        private void Attack()
+        {
             _timer += Time.deltaTime;
-
-
-            //if (_myEntity.HaveTargetToAttack())
-            //{
-            //    _target = _myEntity.AttackTarget;
-            //}
 
             Vector3 lookDirection = (_target.transform.position - _myEntity.transform.position).normalized;
             _myEntity.transform.forward = lookDirection;
@@ -70,7 +71,6 @@ namespace IA_I.FSM.StatesBehaviour
                 _myAnimator.SetTrigger(_attackAnimationName);
                 _timer = 0;
             }
-
         }
     }
 }

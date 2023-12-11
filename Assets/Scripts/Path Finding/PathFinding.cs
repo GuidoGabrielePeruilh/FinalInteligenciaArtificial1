@@ -10,9 +10,9 @@ public class PathFinding
                     Mathf.Abs(currentNode.transform.position.z - goalNode.transform.position.z);
     }
 
-    public List<Node> ThetaStar(Node startingNode, Node goalNode)
+    public Stack<Node> ThetaStar(Node startingNode, Node goalNode)
     {
-        if (startingNode == null || goalNode == null) return new List<Node>();
+        if (startingNode == null || goalNode == null) return new Stack<Node>();
 
         List<Node> path = new List<Node>(AStar(startingNode, goalNode));
 
@@ -20,7 +20,7 @@ public class PathFinding
 
         while (current + 2 < path.Count)
         {
-            if (InLineOfSight(start: path[current].transform.position, end: path[current + 2].transform.position))
+            if (Extensions.InLineOfSight(path[current].transform.position, path[current + 2].transform.position, NodesManager.Instance.BlockedNodeLayer))
             {
                 path.RemoveAt(current + 1);
             }
@@ -30,15 +30,16 @@ public class PathFinding
             }
         }
 
-        return path;
+        Stack<Node> stackPath = new Stack<Node>();
+        for (int i = path.Count - 1; i >= 0; i--)
+        {
+            stackPath.Push(path[i]);
+        }
+
+        return stackPath;
     }
 
-    bool InLineOfSight(Vector3 start, Vector3 end)
-    {
-        Vector3 dir = end - start;
 
-        return !Physics.Raycast(start, dir, dir.magnitude, NodesManager.Instance.BlockedNodeLayer);
-    }
 
     public Stack<Node> AStar(Node startingNode, Node goalNode)
     {

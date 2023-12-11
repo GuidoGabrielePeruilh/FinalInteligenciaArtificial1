@@ -1,54 +1,18 @@
-using System.Collections;
+using IA_I.EntityNS.Manegeable;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace IA_I.EntityNS.Follower
 {
-    public class FollowersManager : MonoBehaviour
+    public class FollowersManager : Singleton<FollowersManager>
     {
-        public static FollowersManager Instance { get; private set; }
-
         public List<FollowersEntities> AllFollowers { get; private set; }
 
-        public float ViewRadius
-        {
-            get
-            {
-                return _viewRadius * _viewRadius;
-            }
-        }
-
-        public float ArriveRadius
-        {
-            get
-            {
-                return _arriveRadius * _arriveRadius;
-            }
-        }
-
-        public float SeparationRadius
-        {
-            get
-            {
-                return _separationRadius * _separationRadius;
-            }
-        }
-
-        public float AlignmentRadius
-        {
-            get
-            {
-                return _alignmentRadius * _alignmentRadius;
-            }
-        }
-
-        public float CohesionRadius
-        {
-            get
-            {
-                return _cohesionRadius * _cohesionRadius;
-            }
-        }
+        public float ViewRadius => _viewRadius * _viewRadius;
+        public float ArriveRadius => _arriveRadius * _arriveRadius;
+        public float SeparationRadius => _separationRadius * _separationRadius;
+        public float AlignmentRadius => _alignmentRadius * _alignmentRadius;
+        public float CohesionRadius => _cohesionRadius * _cohesionRadius;
 
         [SerializeField] float _viewRadius;
         [SerializeField] float _arriveRadius;
@@ -65,23 +29,29 @@ namespace IA_I.EntityNS.Follower
         [field: SerializeField, Range(0f, 2.5f)]
         public float CohesionWeight { get; private set; }
 
-        void Awake()
+        new private void Awake()
         {
-            Instance = this;
-
+            itDestroyOnLoad = true;
+            base.Awake();
             AllFollowers = new List<FollowersEntities>();
         }
 
-        public void RegisterNewFollower(FollowersEntities newFollower)
+        public void RegisterNewFollower(FollowersEntities newFollower, ManageableEntities leaderOwner)
         {
             if (!AllFollowers.Contains(newFollower))
+            {
                 AllFollowers.Add(newFollower);
+                leaderOwner.AddFollower(newFollower);
+            }
         }
 
-        public void RemoveFollower(FollowersEntities followerToRemove)
+        public void RemoveFollower(FollowersEntities followerToRemove, ManageableEntities leaderOwner)
         {
             if (AllFollowers.Contains(followerToRemove))
+            {
                 AllFollowers.Remove(followerToRemove);
+                leaderOwner.RemoveFollower(followerToRemove);
+            }
         }
     }
 }

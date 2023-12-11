@@ -8,7 +8,7 @@ public interface IState
 
     void OnUpdate();
 
-    void OnFixedUpdate();
+    void OnLateUpdate();
 
     void OnExit();
 }

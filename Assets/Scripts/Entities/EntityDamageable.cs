@@ -1,4 +1,5 @@
 using IA_I.Damageables;
+using UnityEngine;
 
 namespace IA_I.EntityNS
 {
@@ -15,7 +16,7 @@ namespace IA_I.EntityNS
         public void TakeDamage(float damage)
         {
             _entity.OnDamageRecived(damage);
-            _slider.UpdateSlider(_entity.CurrentLife, _entity.MyEntityData.maxLife);
+            _slider.UpdateSlider(_entity.CurrentLife, _entity.MyEntityData.MaxLife);
         }
     }
 }

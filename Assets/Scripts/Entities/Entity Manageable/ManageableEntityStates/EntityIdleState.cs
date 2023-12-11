@@ -1,4 +1,5 @@
 using IA_I.EntityNS.Manegeable;
+using UnityEngine;
 
 namespace IA_I.FSM.StatesBehaviour
 {
@@ -22,9 +23,9 @@ namespace IA_I.FSM.StatesBehaviour
 
         }
 
-        public void OnFixedUpdate()
+        public void OnLateUpdate()
         {
-
+            _entity.FOV();
         }
 
         public void OnUpdate()
@@ -33,7 +34,7 @@ namespace IA_I.FSM.StatesBehaviour
                 _fsm.ChangeState(ManageableEntityStates.Attack);
 
             if (_entity.HasToMove)
-                _fsm.ChangeState(ManageableEntityStates.FindPath);
+                _fsm.ChangeState(ManageableEntityStates.Move);
 
         }
 
